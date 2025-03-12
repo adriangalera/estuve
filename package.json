@@ -1,0 +1,15 @@
+{
+  "name": "estuve",
+  "version": "1.0.0",
+  "description": "estuve.eu lets you visualize all your gpx tracks in a leaflet map",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Adrian Galera",
+  "license": "ISC",
+  "dependencies": {
+    "vite": "^6.2.1"
+  }
+}
