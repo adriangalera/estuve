@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "vite build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "vite build && touch dist/CNAME && echo 'estuve.eu' > dist/CNAME && gh-pages -d dist"
   },
   "keywords": [],
   "author": "Adrian Galera",
