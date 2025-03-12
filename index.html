@@ -1,12 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My JS Project</title>
+    <title>Estuve - Visualize GPX Tracks</title>
+
+       <!-- Canonical URL -->
+       <link rel="canonical" href="https://estuve.eu" />
+    
+    <!-- SEO Metadata -->
+    <meta name="description" content="Upload and explore multiple GPX tracks effortlessly on an interactive map. Easily manage and declutter overlapping routes for a clean and seamless experience.">
+    <meta name="keywords" content="GPX, map, Leaflet, quadtree, deduplication, GIS, tracking">
+    <meta name="author" content="Estuve">
+    <meta property="og:title" content="Estuve - Visualize GPX Tracks">
+    <meta property="og:description" content="Visualize your GPX tracks with ease. Upload multiple routes, remove duplicates, and enjoy a smooth mapping experience.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://estuve.eu">
+    <meta property="og:image" content="https://estuve.eu/favicon.ico">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- Styles -->
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css">
+    
+    <!-- Leaflet Marker Cluster CSS -->
+    <link rel="stylesheet" href="node_modules/leaflet.markercluster/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+
+    <!-- Leaflet Easy Button CSS -->
+    <link rel="stylesheet" href="node_modules/leaflet-easybutton/src/easy-button.css">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/9ed6982e32.js" crossorigin="anonymous" defer></script>
+
 </head>
+
 <body>
-    <h1>Hello, Vite!</h1>
-    <script type="module" src="/src/main.js"></script>
+    <header>
+        <h1>Upload and Visualize Your GPX Tracks on an Interactive Map</h1>
+    </header>
+    <div id="map"></div>
+
+    <!-- Leaflet JS -->
+    <script src="node_modules/leaflet/dist/leaflet.js"></script>
+
+    <!-- Leaflet Marker Cluster JS -->
+     <script src="node_modules/leaflet.markercluster/dist/leaflet.markercluster.js" ></script>
+    <script src="node_modules/leaflet.markercluster.layersupport/dist/leaflet.markercluster.layersupport.js"></script> -->
+
+    <!-- Leaflet Easy Button JS -->
+    <script src="node_modules/leaflet-easybutton/src/easy-button.js"></script>
+
+    <!-- GeoJSON-VT for Vector Tiles -->
+    <script type="module" src="node_modules/geojson-vt/geojson-vt.js"></script>
+    <script type="module" src="node_modules/leaflet-geojson-vt/src/leaflet-geojson-vt.js"></script>
+
+    <!-- Main App Code -->
+    <script type="module" src="src/main.js"></script>
 </body>
+
 </html>

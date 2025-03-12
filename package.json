@@ -5,15 +5,22 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "vite build",
     "deploy": "gh-pages -d dist"
   },
   "keywords": [],
   "author": "Adrian Galera",
   "license": "ISC",
   "dependencies": {
-    "vite": "^6.2.1"
+    "geojson-vt": "^4.0.2",
+    "leaflet": "^1.9.4",
+    "leaflet-easybutton": "^2.4.0",
+    "leaflet-geojson-vt": "^1.1.0",
+    "leaflet.markercluster": "^1.5.3",
+    "leaflet.markercluster.layersupport": "^2.0.1"
   },
   "devDependencies": {
-    "gh-pages": "^6.3.0"
+    "gh-pages": "^6.3.0",
+    "vite": "^6.2.1"
   }
 }
