@@ -1,10 +1,10 @@
-class LngLat {
+export class LngLat {
     constructor(lng, lat) {
         this.lat = lat
         this.lng = lng
     }
 }
-class QuadTreeNode {
+export class QuadTreeNode {
     constructor(ne, nw, se, sw, maxCapacityperNode) {
         // boundaries
         this.northEastCoord = ne
@@ -221,15 +221,4 @@ class QuadTreeNode {
 
         return node;
     }
-}
-
-if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    // Node.js environment
-    module.exports = {
-        QuadTreeNode: QuadTreeNode,
-        LngLat: LngLat
-    }
-} else if (typeof window !== 'undefined') {
-    // Browser environment
-    window.QuadTreeNode = QuadTreeNode
 }

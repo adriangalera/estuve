@@ -1,6 +1,4 @@
-const QuadTree = require('../../src/quadtree');
-const QuadTreeNode = QuadTree.QuadTreeNode;
-const LngLat = QuadTree.LngLat;
+import { QuadTreeNode, LngLat } from '../../src/quadtree';
 
 test('Creates an empty quadtree representing the world', () => {
   const qt = QuadTreeNode.empty()
