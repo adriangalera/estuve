@@ -10,18 +10,17 @@ import "leaflet.markercluster.layersupport";
 import "leaflet-easybutton";
 import "leaflet-easybutton/src/easy-button.css";
 
-import geojsonvt from 'geojson-vt';
-import "leaflet-geojson-vt"
 
-import { addInfoButton } from './infobutton';
-import { geoJsonData } from './tibet'
+import { addInfoButton } from './buttons/infobutton';
+import { QuadTreeNode } from "./quadtree.js";
 import { i18next, i18nPromise } from './i18n.js';
+import { addUploadButton } from "./buttons/upload.js";
+import { GeoJsonContainer } from "./geojsoncontainer.js";
+import {addProgressBar} from './progressbar/creator.js'
 
 //Export some libraries to global scope so that other libraries can find them.
-window.geojsonvt = geojsonvt;
 window.i18next = i18next
 
-// ✅ Initialize Leaflet Map
 const map = L.map("map").setView([0, 0], 4);
 
 // ✅ Add a Tile Layer
@@ -29,51 +28,24 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map);
 
-/*
-// ✅ Initialize Marker Cluster Group
-const markers = L.markerClusterGroup();
-//L.marker([51.5, -0.09]).addTo(markers);
-map.addLayer(markers);
+const qt = QuadTreeNode.empty()
+const container = GeoJsonContainer()
+const progressBar = addProgressBar(map)
 
-// ✅ Add an EasyButton
-L.easyButton("fa-globe", function (btn, map) {
-    alert("Button clicked!");
-}).addTo(map);
+document.addEventListener('mapUpdate', (event) => {
+    let geoJsonLayer = container.set(qt.points())
+    geoJsonLayer.addTo(map)
+});
 
-function waitForLeafletGeoJson(callback, interval = 100) {
-    const checkExist = setInterval(() => {
-        if (L.geoJson) {
-            clearInterval(checkExist); // Stop checking
-            callback(); // Execute the function
-        }
-    }, interval);
+i18nPromise.then(() => {
+    addInfoButton(map, i18next);
+    addUploadButton(map, qt, progressBar);
+    console.log("i18n ready!")
+}) 
+
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+        const initialLatLng = new L.LatLng(position.coords.latitude, position.coords.longitude)
+        map.panTo(initialLatLng)
+    })
 }
-
-// ✅ Define the function that needs to run after L.geoJson is available
-function initializeGeoJsonLayer() {
-    console.log("L.geoJson is now available. Adding GeoJSON-VT layer...");
-
-    const geojsonStyle = {
-        color: "#3388FF",
-        weight: 2,
-        fillOpacity: 0.2,
-    };
-
-    const options = {
-        maxZoom: 20,
-        tolerance: 3,
-        debug: 0,
-        style: geojsonStyle,
-        zIndex: 2,
-    };
-
-    // ✅ Add GeoJSON-VT layer to the map once L.geoJson is available
-    L.geoJson.vt(geoJsonData, options).addTo(map);
-}
-
-// ✅ Start waiting for L.geoJson
-waitForLeafletGeoJson(initializeGeoJsonLayer);
-*/
-
-// Add the info button
-addInfoButton(map, i18next);

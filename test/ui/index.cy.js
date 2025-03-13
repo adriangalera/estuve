@@ -1,6 +1,6 @@
 describe('Index loads correctly', () => {
   
-  it('Visits the index and the info tooltip appears', () => {
+  it('Visits the index and the info tooltip appears when clicked', () => {
     cy.visit('/');
     cy.waitForI18next();
     cy.get('#info-title').should('not.exist');

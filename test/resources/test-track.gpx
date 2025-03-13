@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="TestApp" xmlns="http://www.topografix.com/GPX/1/1">
+  <trk>
+    <name>Test Track</name>
+    <trkseg>
+      <trkpt lat="48.8588443" lon="2.2943506"></trkpt>
+      <trkpt lat="48.859" lon="2.295"></trkpt>
+    </trkseg>
+  </trk>
+</gpx>
