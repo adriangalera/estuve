@@ -4,7 +4,9 @@
   "description": "estuve.eu lets you visualize all your gpx tracks in a leaflet map",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "test:ui": "cypress run",
+    "test:ui:ci": "start-server-and-test dev http://localhost:5173 test:ui",
     "preview": "vite build && vite preview",
     "build": "vite build",
     "deploy": "vite build && touch dist/CNAME && echo 'estuve.eu' > dist/CNAME && gh-pages -d dist"
@@ -14,6 +16,9 @@
   "license": "ISC",
   "dependencies": {
     "geojson-vt": "^4.0.2",
+    "i18next": "^24.2.2",
+    "i18next-browser-languagedetector": "^8.0.4",
+    "i18next-http-backend": "^3.0.2",
     "leaflet": "^1.9.4",
     "leaflet-easybutton": "^2.4.0",
     "leaflet-geojson-vt": "^1.1.0",
@@ -21,8 +26,9 @@
     "leaflet.markercluster.layersupport": "^2.0.1"
   },
   "devDependencies": {
+    "cypress": "^14.2.0",
     "gh-pages": "^6.3.0",
-    "serve": "^14.2.4",
+    "start-server-and-test": "^2.0.11",
     "vite": "^6.2.1"
   }
 }

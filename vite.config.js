@@ -1,12 +1,12 @@
 export default {
-  root: ".",  // Ensure Vite serves from root
+  root: ".",
   build: {
-    outDir: "dist", // Output folder
+    outDir: "dist",
     rollupOptions: {
-      input: "index.html", // Entry point
+      input: "index.html",
     },
   },
   server: {
-    allowedHosts: ["galblog"]
+    allowedHosts: ["galblog"] // an alias in /etc/hosts so the SEO browser plugin can check the page
   }
 };
