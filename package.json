@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "vite",
+    "test": "vitest --run && start-server-and-test dev http://localhost:5173 test:ui",
+    "test:unit": "vitest",
     "test:ui": "cypress run",
     "test:ui:ci": "start-server-and-test dev http://localhost:5173 test:ui",
     "preview": "vite build && vite preview",
@@ -28,7 +30,9 @@
   "devDependencies": {
     "cypress": "^14.2.0",
     "gh-pages": "^6.3.0",
+    "jsdom": "^26.0.0",
     "start-server-and-test": "^2.0.11",
-    "vite": "^6.2.1"
+    "vite": "^6.2.1",
+    "vitest": "^3.0.8"
   }
 }
