@@ -7,5 +7,6 @@ export const addClearStorageButton = (map, fileLoadStorage, qtStorage, quadtree)
         qtStorage.clear()
         quadtree.clear()
         document.dispatchEvent(new CustomEvent('mapUpdate', {detail: {qt: quadtree}}));
+        location.reload()
     }).addTo(map);
 }

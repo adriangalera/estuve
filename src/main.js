@@ -24,7 +24,7 @@ import { addClearStorageButton } from "./buttons/clearStorage.js";
 //Export some libraries to global scope so that other libraries can find them.
 window.i18next = i18next
 
-const map = L.map("map").setView([0, 0], 4);
+const map = L.map("map").setView([41.53289317099601, 2.104000992549118], 4);
 
 // ✅ Add a Tile Layer
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -41,10 +41,8 @@ const container = GeoJsonContainer()
 
 document.addEventListener('mapUpdate', (event) => {
     if (geoJsonLayer) {
-        //console.log("Remove GeoJSON layer ...")
         map.removeLayer(geoJsonLayer); // Remove previous layer
     }
-    //console.log(event.detail.qt.points())
     let newGeoJsonLayer = container.setFromQuadTree(event.detail.qt)
     newGeoJsonLayer.addTo(map);
     geoJsonLayer = newGeoJsonLayer
@@ -72,7 +70,5 @@ if (navigator.geolocation) {
 const countLayers = () => {
     let layerCount = 0;
     map.eachLayer(() => layerCount++);
-    console.log("Number of layers:", layerCount);
-
 }
 window.count = countLayers
