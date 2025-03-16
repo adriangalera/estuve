@@ -38,7 +38,6 @@ const qtStorage = QuadtreeStorage()
 const container = GeoJsonContainer()
 
 document.addEventListener('mapUpdate', (event) => {
-    console.log(`mapUpdate: ${event.detail.qt.points()}`)
     let geoJsonLayer = container.setFromQuadTree(event.detail.qt)
     geoJsonLayer.addTo(map);
     //TODO: Make sure the layer is replaced
