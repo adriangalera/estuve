@@ -1,7 +1,9 @@
-export const GeoJsonStorage = () => {
+import { QuadTreeNode } from "../quadtree"
+
+export const QuadtreeStorage = () => {
     const databaseName = "geodb";
     const databaseKey = "geoData";
-    const geoJsonId = "estuve-geojson";
+    const id = "estuve-quadtree";
 
     return {
         openDatabase() {
@@ -24,11 +26,11 @@ export const GeoJsonStorage = () => {
                 };
             });
         },
-        async save(geoJson) {
+        async save(qt) {
             const db = await this.openDatabase();
             const transaction = db.transaction(databaseKey, "readwrite");
             const store = transaction.objectStore(databaseKey);
-            store.put({ id: geoJsonId, data: geoJson });
+            store.put({ id: id, data: qt });
 
             return new Promise((resolve, reject) => {
                 transaction.oncomplete = () => resolve();
@@ -39,10 +41,15 @@ export const GeoJsonStorage = () => {
             const db = await this.openDatabase();
             const transaction = db.transaction(databaseKey, "readonly");
             const store = transaction.objectStore(databaseKey);
-            const request = store.get(geoJsonId);
+            const request = store.get(id);
 
             return new Promise((resolve, reject) => {
-                request.onsuccess = () => resolve(request.result?.data || null);
+                request.onsuccess = () => {
+                    if (request.result.data) {
+                        resolve(QuadTreeNode.fromObject(request.result.data))
+                    }
+                    resolve(QuadTreeNode.empty());
+                }
                 request.onerror = () => reject(request.error);
             });
         },
@@ -50,7 +57,7 @@ export const GeoJsonStorage = () => {
             const db = await this.openDatabase();
             const transaction = db.transaction(databaseKey, "readwrite");
             const store = transaction.objectStore(databaseKey);
-            store.delete(geoJsonId);
+            store.delete(id);
 
             return new Promise((resolve, reject) => {
                 transaction.oncomplete = () => resolve();

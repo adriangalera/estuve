@@ -17,13 +17,9 @@ export const GeoJsonContainer = (geojsonStorage) => {
     };
 
     return {
-        setFromPoints(points) {
-            const geojson = pointsToGeoJson(points);
-            geojsonStorage.save(geojson)
-            return this.setFromGeoJson(geojson)
-        },
-        setFromGeoJson(geojson) {
+        setFromQuadTree(qt) {
+            const geojson = pointsToGeoJson(qt.points());
             return L.geoJson.vt(geojson, options);
-        }
+        },
     }
 }

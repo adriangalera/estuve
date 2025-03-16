@@ -18,9 +18,8 @@ import { addUploadButton } from "./buttons/upload.js";
 import { GeoJsonContainer } from "./geojson/geojsoncontainer.js";
 import { addProgressBar } from './progressbar/creator.js'
 import { FileLoadStorage } from './storage/filesLoaded.js'
-import { GeoJsonStorage } from "./storage/geoJsonStorage.js";
+import { QuadtreeStorage } from "./storage/quadtreeStorage.js";
 import { addClearStorageButton } from "./buttons/clearStorage.js";
-import { pointsFromGeoJson } from "./geojson/utils";
 
 //Export some libraries to global scope so that other libraries can find them.
 window.i18next = i18next
@@ -35,33 +34,25 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 let qt = QuadTreeNode.empty()
 const progressBar = addProgressBar(map)
 const fileLoadedCache = FileLoadStorage()
-const geoJsonStorage = GeoJsonStorage()
-const container = GeoJsonContainer(geoJsonStorage)
+const qtStorage = QuadtreeStorage()
+const container = GeoJsonContainer()
 
-document.addEventListener('mapUpdate', (quadtree) => {
-    console.log(`mapUpdate: ${quadtree.points()}`)
-    qt = quadtree
-    let geoJsonLayer = container.setFromPoints(qt.points())
+document.addEventListener('mapUpdate', (event) => {
+    console.log(`mapUpdate: ${event.detail.qt.points()}`)
+    let geoJsonLayer = container.setFromQuadTree(event.detail.qt)
     geoJsonLayer.addTo(map);
     //TODO: Make sure the layer is replaced
 });
 
 i18nPromise.then(() => {
     addInfoButton(map, i18next);
-    addUploadButton(map, qt, progressBar, fileLoadedCache);
-    addClearStorageButton(map, fileLoadedCache, geoJsonStorage, qt)
+    addUploadButton(map, qt, progressBar, fileLoadedCache, qtStorage);
+    addClearStorageButton(map, fileLoadedCache, qtStorage, qt)
 
-    geoJsonStorage.load()
-        .then(geoJson => {
-            console.log(`Loaded geoJson ${JSON.stringify(geoJson)}`)
-            if (geoJson) { 
-                qt = QuadTreeNode.empty()
-                const points = pointsFromGeoJson(geoJson)
-                points.forEach(point => qt.insertLatLng(point.lat, point.lon))
-                console.log(qt.points().length)
-                const layer = container.setFromGeoJson(geoJson);
-                layer.addTo(map);
-            }
+    qtStorage.load()
+        .then(qt => {
+            const layer = container.setFromQuadTree(qt)
+            layer.addTo(map)
         })
 })
 

@@ -2,10 +2,12 @@ import { parseGpxTrack } from "../trackparser";
 
 const METERS_TOLERANCE = 10;
 
-export const addUploadButton = (map, quadtree, progressBar, fileLoadedCache) => {
+export const addUploadButton = (map, quadtree, progressBar, fileLoadedCache, qtStorage) => {
 
     const triggerMapUpdate = () => {
-        document.dispatchEvent(new CustomEvent('mapUpdate', quadtree));
+        qtStorage.save(quadtree)
+        console.log(`Trigger map update with ${quadtree.points().length} points`)
+        document.dispatchEvent(new CustomEvent('mapUpdate',  {detail: {qt: quadtree}}));
     }
 
     const handleMultipleGpxUpload = async (event) => {
