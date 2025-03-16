@@ -1,0 +1,27 @@
+export const pointToGeoJson = (point) => {
+    return {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [point[1], point[0]]
+        }
+    }
+}
+
+export const pointsToGeoJson = (points) => {
+    return {
+        "type": "FeatureCollection",
+        "features": points.map((point) => pointToGeoJson(point))
+    }
+}
+
+export const pointsFromGeoJson = (geoJSON) => {
+    if (!geoJSON || !geoJSON.features) return [];
+
+    return geoJSON.features
+        .filter(feature => feature.geometry && feature.geometry.type === "Point")
+        .map(feature => {
+            const [lon, lat] = feature.geometry.coordinates;
+            return { lat, lon };
+        });
+};

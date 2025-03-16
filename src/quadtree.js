@@ -221,4 +221,20 @@ export class QuadTreeNode {
 
         return node;
     }
+    clear() {
+        console.log("quadtree clear!");
+        this.northEastCoord = new LngLat(180, 90)
+        this.northWestCoord = new LngLat(-180, 90)
+        this.southEastCoord = new LngLat(180, -90)
+        this.southWestCoord = new LngLat(-180, -90)
+
+        // children
+        this.northEastChild = undefined
+        this.northWestChild = undefined
+        this.southEastChild = undefined
+        this.southWestChild = undefined
+
+        // node values
+        this.values = []
+    }
 }

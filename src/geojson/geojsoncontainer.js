@@ -1,24 +1,7 @@
 import geojsonvt from 'geojson-vt';
 window.geojsonvt = geojsonvt
 import "leaflet-geojson-vt"
-
-const pointToGeoJson = (point) => {
-    return {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [point[1], point[0]]
-        }
-    }
-}
-
-const pointsToGeoJson = (points) => {
-    return {
-        "type": "FeatureCollection",
-        "features": points.map((point) => pointToGeoJson(point))
-    }
-}
-
+import { pointsToGeoJson } from './utils';
 
 export const GeoJsonContainer = (geojsonStorage) => {
     const options = {

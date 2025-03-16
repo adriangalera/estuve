@@ -5,7 +5,7 @@ const METERS_TOLERANCE = 10;
 export const addUploadButton = (map, quadtree, progressBar, fileLoadedCache) => {
 
     const triggerMapUpdate = () => {
-        document.dispatchEvent(new CustomEvent('mapUpdate'));
+        document.dispatchEvent(new CustomEvent('mapUpdate', quadtree));
     }
 
     const handleMultipleGpxUpload = async (event) => {
