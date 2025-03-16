@@ -6,7 +6,6 @@ export const addUploadButton = (map, quadtree, progressBar, fileLoadedCache, qtS
 
     const triggerMapUpdate = () => {
         qtStorage.save(quadtree)
-        console.log(`Trigger map update with ${quadtree.points().length} points`)
         document.dispatchEvent(new CustomEvent('mapUpdate',  {detail: {qt: quadtree}}));
     }
 

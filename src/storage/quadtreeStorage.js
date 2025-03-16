@@ -45,8 +45,9 @@ export const QuadtreeStorage = () => {
 
             return new Promise((resolve, reject) => {
                 request.onsuccess = () => {
-                    if (request.result.data) {
+                    if (request.result && request.result?.data) {
                         resolve(QuadTreeNode.fromObject(request.result.data))
+                        return;
                     }
                     resolve(QuadTreeNode.empty());
                 }

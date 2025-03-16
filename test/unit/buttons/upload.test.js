@@ -15,7 +15,7 @@ vi.mock("../../../src/trackparser", () => ({
 }));
 
 describe("addUploadButton", () => {
-    let map, quadtree, fileInput, progressBar, fileLoadStorage
+    let map, quadtree, fileInput, progressBar, fileLoadStorage, qtStorage
 
     beforeEach(() => {
         // Mock map and quadtree
@@ -23,6 +23,7 @@ describe("addUploadButton", () => {
         quadtree = { insertLatLng: vi.fn(), locationIsOnTree: vi.fn().mockImplementation(() => false) };
         progressBar = { loadWithCurrentTotal: vi.fn(), stop: vi.fn() }
         fileLoadStorage = { isAlreadyLoaded: vi.fn().mockImplementation(() => false), saveUploadedFile: vi.fn() }
+        qtStorage = {save: vi.fn()}
 
         // Create a fake file input in the DOM
         document.body.innerHTML = `<input type="file" id="gpxFileInput" multiple />`;
@@ -31,7 +32,7 @@ describe("addUploadButton", () => {
         parseGpxTrack = vi.fn()
 
         // Call the function under test
-        addUploadButton(map, quadtree, progressBar, fileLoadStorage);
+        addUploadButton(map, quadtree, progressBar, fileLoadStorage, qtStorage);
     });
 
     it("should add the button to the map", () => {
