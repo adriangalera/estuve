@@ -1,9 +1,27 @@
 import geojsonvt from 'geojson-vt';
 window.geojsonvt = geojsonvt
 import "leaflet-geojson-vt"
-import { pointsToGeoJson } from './utils';
 
-export const GeoJsonContainer = (geojsonStorage) => {
+export const GeoJsonContainer = () => {
+
+    const pointToGeoJson = (point) => {
+        return {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [point[1], point[0]]
+            }
+        }
+    }
+
+    const pointsToGeoJson = (points) => {
+        return {
+            "type": "FeatureCollection",
+            "features": points.map((point) => pointToGeoJson(point))
+        }
+    }
+
+
     const options = {
         maxZoom: 20,
         tolerance: 3,
@@ -20,6 +38,6 @@ export const GeoJsonContainer = (geojsonStorage) => {
         setFromQuadTree(qt) {
             const geojson = pointsToGeoJson(qt.points());
             return L.geoJson.vt(geojson, options);
-        },
+        }
     }
 }

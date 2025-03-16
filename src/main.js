@@ -15,7 +15,7 @@ import { addInfoButton } from './buttons/infobutton';
 import { QuadTreeNode } from "./quadtree.js";
 import { i18next, i18nPromise } from './i18n.js';
 import { addUploadButton } from "./buttons/upload.js";
-import { GeoJsonContainer } from "./geojson/geojsoncontainer.js";
+import { GeoJsonContainer } from "./geojsoncontainer.js";
 import { addProgressBar } from './progressbar/creator.js'
 import { FileLoadStorage } from './storage/filesLoaded.js'
 import { QuadtreeStorage } from "./storage/quadtreeStorage.js";
@@ -32,7 +32,7 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 }).addTo(map);
 
 let qt = QuadTreeNode.empty()
-let geoJsonLayer = null; 
+let geoJsonLayer = null;
 
 const progressBar = addProgressBar(map)
 const fileLoadedCache = FileLoadStorage()
@@ -51,7 +51,7 @@ document.addEventListener('mapUpdate', (event) => {
 i18nPromise.then(() => {
     addInfoButton(map, i18next);
     addUploadButton(map, qt, progressBar, fileLoadedCache, qtStorage);
-    addClearStorageButton(map, fileLoadedCache, qtStorage, qt)
+    addClearStorageButton(map, fileLoadedCache, qtStorage, qt, i18next)
 
     qtStorage.load()
         .then(qt => {

@@ -2,5 +2,8 @@
   "info": {
     "title": "Bienvenido a estuve.eu!",
     "content" : "Aquí puedes explorar tus rutas GPX de forma interactiva."
+  },
+  "clear" : {
+    "message" : "Estas seguro de borrar tus datos?"
   }
 }

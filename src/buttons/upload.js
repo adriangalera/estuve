@@ -1,45 +1,45 @@
-import { parseGpxTrack } from "../trackparser";
+import { TrackParser } from "../parser/trackparser";
 
 const METERS_TOLERANCE = 10;
+const UPDATE_MAP_EACH = 20;
 
 export const addUploadButton = (map, quadtree, progressBar, fileLoadedCache, qtStorage) => {
 
     const triggerMapUpdate = () => {
         qtStorage.save(quadtree)
-        document.dispatchEvent(new CustomEvent('mapUpdate',  {detail: {qt: quadtree}}));
+        document.dispatchEvent(new CustomEvent('mapUpdate', { detail: { qt: quadtree } }));
     }
 
     const handleMultipleGpxUpload = async (event) => {
+        const parser = TrackParser()
         const files = event.target.files;
         if (!files.length) return;
 
         progressBar.loadWithCurrentTotal(0, files.length)
+
         let counter = 0
         for (let file of files) {
             if (!fileLoadedCache.isAlreadyLoaded(file)) {
-                await handleGpxFile(file)
+                const response = await parser.parseGpxTrackInWorker(file)
+                const points = response.data
+                for (let point of points) {
+                    const lat = point.lat
+                    const lng = point.lon
+                    if (!quadtree.locationIsOnTree(lat, lng, METERS_TOLERANCE)) {
+                        quadtree.insertLatLng(lat, lng)
+                    }
+                }
                 counter += 1
-                if (counter % 10 == 0) {
+                if (counter % UPDATE_MAP_EACH == 0) {
                     progressBar.loadWithCurrentTotal(counter, files.length)
                     triggerMapUpdate()
                 }
+                fileLoadedCache.saveUploadedFile(file)
             }
         }
+
         progressBar.stop()
         triggerMapUpdate()
-       
-    }
-
-    const handleGpxFile = async (file) => {
-        const points = await parseGpxTrack(file)
-        for (let point of points) {
-            const lat = point.lat
-            const lng = point.lon
-            if (!quadtree.locationIsOnTree(lat, lng, METERS_TOLERANCE)) {
-                quadtree.insertLatLng(lat, lng)
-            }
-        }
-        fileLoadedCache.saveUploadedFile(file)
     }
 
     const fileInput = document.getElementById('gpxFileInput');

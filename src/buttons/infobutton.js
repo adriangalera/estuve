@@ -1,23 +1,20 @@
-import L from 'leaflet';
-import 'leaflet-easybutton';
 
-const popupHtml = `
-     <b><span id="info-title">Welcome to estuve.eu!</span></b>
+export const displayInfoMessage = (map, i18next) => {
+
+     const translatedHtml = `
+     <b><span id="info-title">${i18next.t("info.title")}</span></b>
      <br>
-     <span id="info-content">Here you can explore your GPX tracks interactively.</span>
-`
+     <span id="info-content">${i18next.t("info.content")}</span>
+`;
+
+     L.popup()
+          .setLatLng(map.getCenter())
+          .setContent(translatedHtml)
+          .openOn(map);
+}
 
 export const addInfoButton = (map, i18next) => {
      L.easyButton('fa-info-circle', function (btn, map) {
-          L.popup()
-               .setLatLng(map.getCenter())
-               .setContent(popupHtml)
-               .openOn(map);
-
-          if(i18next.isInitialized) {
-               document.getElementById("info-title").innerText = i18next.t("info.title")
-               document.getElementById("info-content").innerText = i18next.t("info.content")
-          }
-
+          displayInfoMessage(map, i18next)
      }).addTo(map);
 }
