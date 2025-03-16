@@ -27,6 +27,7 @@ export const addUploadButton = (map, quadtree, progressBar, fileLoadedCache, qtS
         }
         progressBar.stop()
         triggerMapUpdate()
+       
     }
 
     const handleGpxFile = async (file) => {

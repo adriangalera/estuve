@@ -32,15 +32,22 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 }).addTo(map);
 
 let qt = QuadTreeNode.empty()
+let geoJsonLayer = null; 
+
 const progressBar = addProgressBar(map)
 const fileLoadedCache = FileLoadStorage()
 const qtStorage = QuadtreeStorage()
 const container = GeoJsonContainer()
 
 document.addEventListener('mapUpdate', (event) => {
-    let geoJsonLayer = container.setFromQuadTree(event.detail.qt)
-    geoJsonLayer.addTo(map);
-    //TODO: Make sure the layer is replaced
+    if (geoJsonLayer) {
+        //console.log("Remove GeoJSON layer ...")
+        map.removeLayer(geoJsonLayer); // Remove previous layer
+    }
+    //console.log(event.detail.qt.points())
+    let newGeoJsonLayer = container.setFromQuadTree(event.detail.qt)
+    newGeoJsonLayer.addTo(map);
+    geoJsonLayer = newGeoJsonLayer
 });
 
 i18nPromise.then(() => {
@@ -61,3 +68,11 @@ if (navigator.geolocation) {
         map.panTo(initialLatLng)
     })
 }
+
+const countLayers = () => {
+    let layerCount = 0;
+    map.eachLayer(() => layerCount++);
+    console.log("Number of layers:", layerCount);
+
+}
+window.count = countLayers
