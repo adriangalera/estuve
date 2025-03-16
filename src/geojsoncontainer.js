@@ -20,8 +20,7 @@ const pointsToGeoJson = (points) => {
 }
 
 
-export const GeoJsonContainer = () => {
-
+export const GeoJsonContainer = (geojsonStorage) => {
     const options = {
         maxZoom: 20,
         tolerance: 3,
@@ -35,8 +34,12 @@ export const GeoJsonContainer = () => {
     };
 
     return {
-        set: (points) => {
+        setFromPoints(points) {
             const geojson = pointsToGeoJson(points);
+            geojsonStorage.save(geojson)
+            return this.setFromGeoJson(geojson)
+        },
+        setFromGeoJson(geojson) {
             return L.geoJson.vt(geojson, options);
         }
     }

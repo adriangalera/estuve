@@ -2,10 +2,9 @@ import { parseGpxTrack } from "../trackparser";
 
 const METERS_TOLERANCE = 10;
 
-export const addUploadButton = (map, quadtree, progressBar) => {
+export const addUploadButton = (map, quadtree, progressBar, fileLoadedCache) => {
 
     const triggerMapUpdate = () => {
-        console.log("Triggering map update!");
         document.dispatchEvent(new CustomEvent('mapUpdate'));
     }
 
@@ -13,19 +12,20 @@ export const addUploadButton = (map, quadtree, progressBar) => {
         const files = event.target.files;
         if (!files.length) return;
 
-        progressBar.loadWithCurrentTotal(0,files.length)
+        progressBar.loadWithCurrentTotal(0, files.length)
         let counter = 0
         for (let file of files) {
-            await handleGpxFile(file)
-            counter += 1
-            if (counter % 10 == 0) {
-                progressBar.loadWithCurrentTotal(counter,files.length)
-                triggerMapUpdate()
+            if (!fileLoadedCache.isAlreadyLoaded(file)) {
+                await handleGpxFile(file)
+                counter += 1
+                if (counter % 10 == 0) {
+                    progressBar.loadWithCurrentTotal(counter, files.length)
+                    triggerMapUpdate()
+                }
             }
         }
         progressBar.stop()
         triggerMapUpdate()
-        console.log(`Complete processing of ${files.length} GPX tracks`)
     }
 
     const handleGpxFile = async (file) => {
@@ -37,6 +37,7 @@ export const addUploadButton = (map, quadtree, progressBar) => {
                 quadtree.insertLatLng(lat, lng)
             }
         }
+        fileLoadedCache.saveUploadedFile(file)
     }
 
     const fileInput = document.getElementById('gpxFileInput');

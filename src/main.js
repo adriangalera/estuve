@@ -16,7 +16,10 @@ import { QuadTreeNode } from "./quadtree.js";
 import { i18next, i18nPromise } from './i18n.js';
 import { addUploadButton } from "./buttons/upload.js";
 import { GeoJsonContainer } from "./geojsoncontainer.js";
-import {addProgressBar} from './progressbar/creator.js'
+import { addProgressBar } from './progressbar/creator.js'
+import { FileLoadStorage } from './storage/filesLoaded.js'
+import { GeoJsonStorage } from "./storage/geoJsonStorage.js";
+import { addClearStorageButton } from "./buttons/clearStorage.js";
 
 //Export some libraries to global scope so that other libraries can find them.
 window.i18next = i18next
@@ -29,19 +32,30 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 }).addTo(map);
 
 const qt = QuadTreeNode.empty()
-const container = GeoJsonContainer()
 const progressBar = addProgressBar(map)
+const fileLoadedCache = FileLoadStorage()
+const geoJsonStorage = GeoJsonStorage()
+const container = GeoJsonContainer(geoJsonStorage)
 
-document.addEventListener('mapUpdate', (event) => {
-    let geoJsonLayer = container.set(qt.points())
-    geoJsonLayer.addTo(map)
+document.addEventListener('mapUpdate', () => {
+    let geoJsonLayer = container.setFromPoints(qt.points())
+    geoJsonLayer.addTo(map);
+    //TODO: Make sure the layer is replaced
 });
 
 i18nPromise.then(() => {
     addInfoButton(map, i18next);
-    addUploadButton(map, qt, progressBar);
-    console.log("i18n ready!")
-}) 
+    addUploadButton(map, qt, progressBar, fileLoadedCache);
+    addClearStorageButton(map, fileLoadedCache, geoJsonStorage)
+
+    geoJsonStorage.load()
+        .then(geoJson => {
+            if (geoJson) {
+                const layer = container.setFromGeoJson(geoJson);
+                layer.addTo(map);
+            }
+        })
+})
 
 if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {

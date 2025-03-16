@@ -15,13 +15,14 @@ vi.mock("../../../src/trackparser", () => ({
 }));
 
 describe("addUploadButton", () => {
-    let map, quadtree, fileInput, progressBar;
+    let map, quadtree, fileInput, progressBar, fileLoadStorage
 
     beforeEach(() => {
         // Mock map and quadtree
         map = {};
         quadtree = { insertLatLng: vi.fn(), locationIsOnTree: vi.fn().mockImplementation(() => false) };
         progressBar = { loadWithCurrentTotal: vi.fn(), stop: vi.fn() }
+        fileLoadStorage = { isAlreadyLoaded: vi.fn().mockImplementation(() => false), saveUploadedFile: vi.fn() }
 
         // Create a fake file input in the DOM
         document.body.innerHTML = `<input type="file" id="gpxFileInput" multiple />`;
@@ -30,7 +31,7 @@ describe("addUploadButton", () => {
         parseGpxTrack = vi.fn()
 
         // Call the function under test
-        addUploadButton(map, quadtree, progressBar);
+        addUploadButton(map, quadtree, progressBar, fileLoadStorage);
     });
 
     it("should add the button to the map", () => {
@@ -75,9 +76,32 @@ describe("addUploadButton", () => {
         await fireEvent.change(fileInput, { target: { files: [file] } })
 
         await waitFor(() => {
-            expect(progressBar.loadWithCurrentTotal).toHaveBeenCalledWith(0,1)
+            expect(progressBar.loadWithCurrentTotal).toHaveBeenCalledWith(0, 1)
             expect(progressBar.stop).toHaveBeenCalled();
         })
     })
+    it("should check if file is already loaded and save the file is loaded", async () => {
+        const mockPoints = [{ lon: -0.09, lat: 51.505 }, { lon: -0.1, lat: 51.506 }];
+        parseGpxTrack.mockResolvedValue(mockPoints);
 
+        const file = new File(["GPX content"], "track.gpx", { type: "application/gpx+xml" });
+        await fireEvent.change(fileInput, { target: { files: [file] } })
+        
+        await waitFor(() => {
+            expect(fileLoadStorage.isAlreadyLoaded).toHaveBeenCalledWith(file)
+            expect(fileLoadStorage.saveUploadedFile).toHaveBeenCalledWith(file)
+        })
+    })
+
+    it("should ignore file upload if already loaded", async () => {
+        fileLoadStorage.isAlreadyLoaded.mockImplementation( () => true )
+        const mockPoints = [{ lon: -0.09, lat: 51.505 }, { lon: -0.1, lat: 51.506 }];
+        parseGpxTrack.mockResolvedValue(mockPoints);
+
+        const file = new File(["GPX content"], "track.gpx", { type: "application/gpx+xml" });
+        await fireEvent.change(fileInput, { target: { files: [file] } })
+        
+        expect(fileLoadStorage.saveUploadedFile).not.toHaveBeenCalledWith(file)
+        expect(quadtree.insertLatLng).not.toHaveBeenCalled()
+    })
 });
