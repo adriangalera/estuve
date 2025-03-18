@@ -30,3 +30,26 @@ Cypress.Commands.add('waitForI18next', () => {
       expect(win.i18next.isInitialized).to.be.true;
     });
   });
+
+  Cypress.Commands.add('noPointsAdded', () => {
+    cy.window().should((win) => {
+      expect(win.geoJsonLayer.tileIndex.tileCoords.length).to.equal(0);
+    });
+  });
+
+  Cypress.Commands.add('shouldHaveSomePointsAdded', () => {
+    cy.window().should((win) => {
+      expect(win.geoJsonLayer.tileIndex.tileCoords.length).not.to.equal(0);
+    });
+  });
+
+  Cypress.Commands.add('clearPoints', () => {
+    cy.window().then(() => {
+      cy.on('window:confirm', (str) => {
+        return true
+    })
+    cy.get(".fa-trash").click()
+    });
+  });
+
+

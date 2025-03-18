@@ -1,6 +1,6 @@
-describe('Index loads correctly', () => {
+describe('Info button loads correctly', () => {
   
-  it('Visits the index and the info tooltip appears when clicked', () => {
+  it('the info tooltip appears when clicked', () => {
     cy.visit('/');
     cy.waitForI18next();
     cy.get('#info-title').should('not.exist');
@@ -11,7 +11,7 @@ describe('Index loads correctly', () => {
     cy.get('#info-content').should('be.visible');
   });
 
-  it("Should display the info tooltip in Spanish", () => {
+  it("the info tooltip appears Spanish", () => {
     cy.visit('/', {
       onBeforeLoad(win) {
         // Override the browser language for this test

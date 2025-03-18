@@ -5,7 +5,6 @@ export const clearStorage = (fileLoadStorage, qtStorage, quadtree, i18next) => {
         qtStorage.clear()
         quadtree.clear()
         document.dispatchEvent(new CustomEvent('mapUpdate', { detail: { qt: quadtree } }));
-        location.reload()
     }
 }
 export const addClearStorageButton = (map, fileLoadStorage, qtStorage, quadtree, i18next) => {

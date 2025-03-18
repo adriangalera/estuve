@@ -1,4 +1,4 @@
-import { describe, it, vi, expect, beforeEach } from "vitest";
+import { describe, it, vi, expect } from "vitest";
 import { clearStorage, addClearStorageButton } from "../../../src/buttons/clearStorage";
 import { waitFor } from "@testing-library/dom";
 
@@ -29,7 +29,6 @@ describe("ClearButtonStorage", () => {
         const fileLoadStorage = { clear: vi.fn() }
         const qtStorage = { clear: vi.fn() }
         const quadtree = { clear: vi.fn() }
-        global.location = { reload: vi.fn() }
         
         
         clearStorage(fileLoadStorage, qtStorage, quadtree, i18next)
@@ -37,7 +36,6 @@ describe("ClearButtonStorage", () => {
         expect(fileLoadStorage.clear).toHaveBeenCalled()
         expect(qtStorage.clear).toHaveBeenCalled()
         expect(quadtree.clear).toHaveBeenCalled()
-        expect(location.reload).toHaveBeenCalled()
 
         waitFor(() => {
             expect(eventReceiver).toHaveBeenCalled()
@@ -50,13 +48,11 @@ describe("ClearButtonStorage", () => {
         const fileLoadStorage = { clear: vi.fn() }
         const qtStorage = { clear: vi.fn() }
         const quadtree = { clear: vi.fn() }
-        global.location = { reload: vi.fn() }
 
         clearStorage(fileLoadStorage, qtStorage, quadtree, i18next)
 
         expect(fileLoadStorage.clear).not.toHaveBeenCalled()
         expect(qtStorage.clear).not.toHaveBeenCalled()
         expect(quadtree.clear).not.toHaveBeenCalled()
-        expect(location.reload).not.toHaveBeenCalled()
     })
 })

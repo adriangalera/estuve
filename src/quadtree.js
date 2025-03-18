@@ -222,7 +222,8 @@ export class QuadTreeNode {
         return node;
     }
     clear() {
-        console.log("quadtree clear!");
+        if (this.verbose)
+            console.log("Clearing quadtree");
         this.northEastCoord = new LngLat(180, 90)
         this.northWestCoord = new LngLat(-180, 90)
         this.southEastCoord = new LngLat(180, -90)

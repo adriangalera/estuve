@@ -21,10 +21,10 @@ import { FileLoadStorage } from './storage/filesLoaded.js'
 import { QuadtreeStorage } from "./storage/quadtreeStorage.js";
 import { addClearStorageButton } from "./buttons/clearStorage.js";
 
-//Export some libraries to global scope so that other libraries can find them.
-window.i18next = i18next
+
 
 const map = L.map("map").setView([41.53289317099601, 2.104000992549118], 4);
+
 
 // ✅ Add a Tile Layer
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -39,24 +39,29 @@ const fileLoadedCache = FileLoadStorage()
 const qtStorage = QuadtreeStorage()
 const container = GeoJsonContainer()
 
-document.addEventListener('mapUpdate', (event) => {
+const updateGeoJsonLayer = (newGeoJsonLayer) => {
     if (geoJsonLayer) {
-        map.removeLayer(geoJsonLayer); // Remove previous layer
+        map.removeLayer(geoJsonLayer);
     }
-    let newGeoJsonLayer = container.setFromQuadTree(event.detail.qt)
     newGeoJsonLayer.addTo(map);
     geoJsonLayer = newGeoJsonLayer
+    window.geoJsonLayer = geoJsonLayer
+}
+
+document.addEventListener('mapUpdate', (event) => {
+    let newGeoJsonLayer = container.setFromQuadTree(event.detail.qt)
+    updateGeoJsonLayer(newGeoJsonLayer)
 });
 
 i18nPromise.then(() => {
     addInfoButton(map, i18next);
-    addUploadButton(map, qt, progressBar, fileLoadedCache, qtStorage);
+    addUploadButton(map, qt, progressBar, fileLoadedCache, qtStorage, geoJsonLayer);
     addClearStorageButton(map, fileLoadedCache, qtStorage, qt, i18next)
 
     qtStorage.load()
         .then(qt => {
-            const layer = container.setFromQuadTree(qt)
-            layer.addTo(map)
+            const initialGeoJsonLayer = container.setFromQuadTree(qt)
+            updateGeoJsonLayer(initialGeoJsonLayer)
         })
 })
 
@@ -67,8 +72,6 @@ if (navigator.geolocation) {
     })
 }
 
-const countLayers = () => {
-    let layerCount = 0;
-    map.eachLayer(() => layerCount++);
-}
-window.count = countLayers
+//Export some libraries to global scope so that other libraries can find them.
+window.i18next = i18next
+window.getGeoJsonLayer = geoJsonLayer
