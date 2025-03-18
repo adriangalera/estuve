@@ -1,7 +1,9 @@
 {
-    "info": {
-      "title": "Welcome to estuve.eu!",
-      "content" : "Here you can explore your GPX tracks interactively."
-    }
+  "info": {
+    "title": "Welcome to estuve.eu!",
+    "content": "Here you can explore your GPX tracks interactively."
+  },
+  "clear": {
+    "message": "Are you sure you want to remove all the data?"
   }
-  
+}
