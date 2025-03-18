@@ -1,7 +1,7 @@
 import { TrackParser } from "../parser/trackparser";
 
 const METERS_TOLERANCE = 10;
-const UPDATE_MAP_EACH = 20;
+const UPDATE_MAP_EACH = 50;
 
 export const addUploadButton = (map, quadtree, progressBar, fileLoadedCache, qtStorage) => {
 
