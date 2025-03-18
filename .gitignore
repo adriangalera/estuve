@@ -2,4 +2,6 @@ coverage
 dist
 node_modules
 
+gpx/all
 gpx/suunto
+scripts/suunto/data.json
