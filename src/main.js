@@ -21,15 +21,23 @@ import { FileLoadStorage } from './storage/filesLoaded.js'
 import { QuadtreeStorage } from "./storage/quadtreeStorage.js";
 import { addClearStorageButton } from "./buttons/clearStorage.js";
 
-
-
 const map = L.map("map").setView([41.53289317099601, 2.104000992549118], 4);
 
-
-// ✅ Add a Tile Layer
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+const osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map);
+
+const allaus = L.tileLayer.wms('https://geoserveis.icgc.cat/geoserver/nivoallaus/wms?', {
+    layers: 'zonesallaus',
+    opacity: 0.4
+})
+
+const baseMaps = {
+    "OpenStreeMap": osm
+}
+const overlays = {
+    "Allaus (ICGC)" : allaus
+}
 
 let qt = QuadTreeNode.empty()
 let geoJsonLayer = null;
@@ -39,13 +47,18 @@ const fileLoadedCache = FileLoadStorage()
 const qtStorage = QuadtreeStorage()
 const container = GeoJsonContainer()
 
+
+
 const updateGeoJsonLayer = (newGeoJsonLayer) => {
     if (geoJsonLayer) {
         map.removeLayer(geoJsonLayer);
+        layerControl.removeLayer(geoJsonLayer)
     }
     newGeoJsonLayer.addTo(map);
     geoJsonLayer = newGeoJsonLayer
     window.geoJsonLayer = geoJsonLayer
+    //overlays["Tracks"] = geoJsonLayer
+    layerControl.addOverlay(geoJsonLayer, "Tracks")
 }
 
 document.addEventListener('mapUpdate', (event) => {
@@ -74,4 +87,10 @@ if (navigator.geolocation) {
 
 //Export some libraries to global scope so that other libraries can find them.
 window.i18next = i18next
-window.getGeoJsonLayer = geoJsonLayer
+
+
+const layerControl = L.control.layers(
+    baseMaps,
+    overlays,
+    { collapsed: false }
+).addTo(map);
