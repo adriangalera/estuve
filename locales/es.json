@@ -1,9 +1,19 @@
 {
   "info": {
     "title": "Bienvenido a estuve.eu!",
-    "content" : "Aquí puedes explorar tus rutas GPX de forma interactiva."
+    "content": "Aquí puedes explorar tus rutas GPX de forma interactiva.",
+    "button": "Info"
   },
-  "clear" : {
-    "message" : "Estas seguro de borrar tus datos?"
+  "clear": {
+    "message": "Estas seguro de borrar tus datos?",
+    "button": "Borrar"
+  },
+  "download": {
+    "button": "Descargar"
+  },
+  "upload": {
+    "button": "Subir",
+    "alert": "Subir ficheros con multiples extensions no está soportado. Suba ficheros GPX o un fichero .bin, pero de manera separada",
+    "error" : "Error subiendo fichero"
   }
 }
