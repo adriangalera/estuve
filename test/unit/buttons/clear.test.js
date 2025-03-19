@@ -16,7 +16,7 @@ describe("ClearButtonStorage", () => {
             })
         }
         const map = vi.fn()
-        addClearStorageButton(map, vi.fn(), vi.fn(), vi.fn())
+        addClearStorageButton(map, vi.fn(), vi.fn(), vi.fn(), i18next)
         expect(addToMapMock).toHaveBeenCalledWith(map)
         expect(passedCallback).toBeDefined()
     })

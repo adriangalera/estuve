@@ -20,6 +20,8 @@ import { addProgressBar } from './progressbar/creator.js'
 import { FileLoadStorage } from './storage/filesLoaded.js'
 import { QuadtreeStorage } from "./storage/quadtreeStorage.js";
 import { addClearStorageButton } from "./buttons/clearStorage.js";
+import { addDownloadButton } from "./buttons/download.js";
+
 
 const map = L.map("map").setView([41.53289317099601, 2.104000992549118], 4);
 
@@ -36,7 +38,7 @@ const baseMaps = {
     "OpenStreeMap": osm
 }
 const overlays = {
-    "Allaus (ICGC)" : allaus
+    "Allaus (ICGC)": allaus
 }
 
 let qt = QuadTreeNode.empty()
@@ -66,17 +68,20 @@ document.addEventListener('mapUpdate', (event) => {
     updateGeoJsonLayer(newGeoJsonLayer)
 });
 
-i18nPromise.then(() => {
-    addInfoButton(map, i18next);
-    addUploadButton(map, qt, progressBar, fileLoadedCache, qtStorage, geoJsonLayer);
-    addClearStorageButton(map, fileLoadedCache, qtStorage, qt, i18next)
+Promise.all([i18nPromise, qtStorage.load()])
+    .then(([_, qt]) => {
 
-    qtStorage.load()
-        .then(qt => {
-            const initialGeoJsonLayer = container.setFromQuadTree(qt)
-            updateGeoJsonLayer(initialGeoJsonLayer)
-        })
-})
+        addInfoButton(map, i18next);
+        addUploadButton(map, qt, progressBar, fileLoadedCache, qtStorage, i18next);
+        addDownloadButton(map, qt, i18next);
+        addClearStorageButton(map, fileLoadedCache, qtStorage, qt, i18next);
+
+        const initialGeoJsonLayer = container.setFromQuadTree(qt);
+        updateGeoJsonLayer(initialGeoJsonLayer);
+    })
+    .catch(error => {
+        console.error("Error loading dependencies:", error);
+    });
 
 if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {

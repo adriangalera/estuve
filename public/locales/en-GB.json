@@ -1,9 +1,19 @@
 {
   "info": {
     "title": "Welcome to estuve.eu!",
-    "content": "Here you can explore your GPX tracks interactively."
+    "content": "Here you can explore your GPX tracks interactively.",
+    "button": "Info"
   },
   "clear": {
-    "message": "Are you sure you want to remove all the data?"
-  }
+    "message": "Are you sure you want to remove all the data?",
+    "button": "Delete"
+  },
+  "download" : {
+    "button" : "Download"
+  },
+  "upload" : {
+    "button": "Upload",
+    "alert": "Mixing file types is not supported. You can select a list of GPX files or a .bin file, but not both",
+    "error" : "Error uploading file"
+  }  
 }

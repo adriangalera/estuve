@@ -7,7 +7,8 @@ export default defineConfig({
     include: ['test/unit/**/*.test.{js,ts}'], // Updated to use the new unit test folder
     coverage: {
       provider: 'v8',  // Use 'v8' for built-in coverage support
-      reporter: ['text', 'lcov'],  // Generate text output and lcov reports
+      reporter: ['text', 'lcov'],  // Generate text output and lcov reports,
+      exclude: ["scripts", "test/ui", "*config.*js*", "cypress", "dist", "src/i18n.js", "src/main.js"]
     },
   },
 });

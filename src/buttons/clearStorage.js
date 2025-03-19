@@ -10,5 +10,5 @@ export const clearStorage = (fileLoadStorage, qtStorage, quadtree, i18next) => {
 export const addClearStorageButton = (map, fileLoadStorage, qtStorage, quadtree, i18next) => {
     return L.easyButton('fa-trash', function (btn, map) {
         clearStorage(fileLoadStorage, qtStorage, quadtree, i18next)
-    }).addTo(map);
+    }, i18next.t("clear.button")).addTo(map);
 }

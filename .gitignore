@@ -6,3 +6,5 @@ gpx/all
 gpx/suunto
 scripts/suunto/data.json
 **/*.DS_Store
+
+cypress/downloads/
