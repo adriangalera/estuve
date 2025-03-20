@@ -6,14 +6,17 @@
   },
   "clear": {
     "message": "Estas seguro de borrar tus datos?",
-    "button": "Borrar"
+    "button": "Borrar",
+    "help": "Elimina todos los datos y empieza de nuevo."
   },
   "download": {
-    "button": "Descargar"
+    "button": "Descargar",
+    "help" : "Descarga una copia de todo lo que hayas creado aqui."
   },
   "upload": {
     "button": "Subir",
     "alert": "Subir ficheros con multiples extensions no está soportado. Suba ficheros GPX o un fichero .bin, pero de manera separada",
-    "error" : "Error subiendo fichero"
+    "error": "Error subiendo fichero",
+    "help": "Usa este boton para subir tus tracks en ficheros GPX, puedes subir multiples. Además se puede usar para subir el fichero estuve.bin generado por el boton de descargar."
   }
 }
