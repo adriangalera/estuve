@@ -1,4 +1,7 @@
+let layerControl;
+
 export const registerMapsAndLayers = (map) => {
+
     const osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
@@ -41,9 +44,11 @@ export const registerMapsAndLayers = (map) => {
         "Allaus (ICGC)": allaus,
     }
 
-    return L.control.layers(
+    layerControl = L.control.layers(
         baseMaps,
         overlays,
         { collapsed: false }
     ).addTo(map);
+
+    return layerControl
 }

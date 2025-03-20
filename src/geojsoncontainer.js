@@ -23,6 +23,7 @@ export const GeoJsonContainer = () => {
 
 
     const options = {
+        name: "tracks",
         maxZoom: 20,
         tolerance: 3,
         debug: 0,
@@ -38,6 +39,22 @@ export const GeoJsonContainer = () => {
         setFromQuadTree(qt) {
             const geojson = pointsToGeoJson(qt.points());
             return L.geoJson.vt(geojson, options);
+        },
+        async setFromExtralayer(layer) {
+            return fetch(layer.url)
+                .then(response => response.json())
+                .then(geojson => L.geoJson.vt(geojson, {
+                    name: layer.name,
+                    style: function (properties) {
+                        const isFlagged = properties.flag;
+                        return {
+                            color: isFlagged ? layer.color : '#FF00FF',
+                            weight: 10,
+                            opacity: 1
+                        };
+                    }
+                })
+                )
         }
     }
 }

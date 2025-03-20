@@ -26,30 +26,54 @@
 
 
 Cypress.Commands.add('waitForI18next', () => {
-    cy.window().should((win) => {
-      expect(win.i18next.isInitialized).to.be.true;
-    });
+  cy.window().should((win) => {
+    expect(win.i18next.isInitialized).to.be.true;
   });
+});
 
-  Cypress.Commands.add('noPointsAdded', () => {
-    cy.window().should((win) => {
-      expect(win.geoJsonLayer.tileIndex.tileCoords.length).to.equal(0);
-    });
+Cypress.Commands.add('noPointsAdded', () => {
+  cy.window().should((win) => {
+    expect(win.geoJsonLayer.tileIndex.tileCoords.length).to.equal(0);
   });
+});
 
-  Cypress.Commands.add('shouldHaveSomePointsAdded', () => {
-    cy.window().should((win) => {
-      expect(win.geoJsonLayer.tileIndex.tileCoords.length).not.to.equal(0);
-    });
+Cypress.Commands.add('shouldHaveSomePointsAdded', () => {
+  cy.window().should((win) => {
+    expect(win.geoJsonLayer.tileIndex.tileCoords.length).not.to.equal(0);
   });
+});
 
-  Cypress.Commands.add('clearPoints', () => {
-    cy.window().then(() => {
-      cy.on('window:confirm', (str) => {
-        return true
+Cypress.Commands.add('clearPoints', () => {
+  cy.window().then(() => {
+    cy.on('window:confirm', (str) => {
+      return true
     })
     cy.get(".fa-trash").click()
-    });
   });
+});
 
+Cypress.Commands.add('getLoadedLayers', () => {
+  cy.window().then((win) => {
+    let layers = []
+    win.map.eachLayer(function (layer) {
+      if (layer.options && layer.options.name) {
+        layers.push(layer.options.name)
+      }
+    });
+    cy.wrap(layers)
+  })
+})
 
+let LOCAL_STORAGE_MEMORY = {};
+
+Cypress.Commands.add("saveLocalStorage", () => {
+  Object.keys(localStorage).forEach(key => {
+    LOCAL_STORAGE_MEMORY[key] = localStorage[key];
+  });
+});
+
+Cypress.Commands.add("restoreLocalStorage", () => {
+  Object.keys(LOCAL_STORAGE_MEMORY).forEach(key => {
+    localStorage.setItem(key, LOCAL_STORAGE_MEMORY[key]);
+  });
+});

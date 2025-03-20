@@ -4,13 +4,15 @@ export const clearStorage = (storage, i18next) => {
     const fileLoadStorage = storage.fileLoadedCache
     const qtStorage = storage.qtStorage
     const quadtree = storage.qt
+    const layerStorage = storage.layers
 
     const msg = i18next.t("clear.message")
     if (confirm(msg)) {
         fileLoadStorage.clear()
         qtStorage.clear()
         quadtree.clear()
-        document.dispatchEvent(new CustomEvent('mapUpdate', { detail: { qt: quadtree } }));
+        layerStorage.clear()
+        document.dispatchEvent(new CustomEvent('mapUpdate', { detail: { qt: quadtree, removedLayerName: "ALL" } }));
     }
 }
 export const addClearStorageButton = (map, storage, i18next) => {
