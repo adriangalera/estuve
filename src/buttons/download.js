@@ -1,3 +1,5 @@
+export const fontAwesomeSymbol = 'fa-download'
+
 export const downloadStorage = (storage) => {
     const download = {
         qt: storage.qt.serialize(),
@@ -11,9 +13,9 @@ export const downloadStorage = (storage) => {
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     document.body.removeChild(downloadAnchor);
-    
+
 }
 
 export const addDownloadButton = (map, storage, i18n) => {
-    L.easyButton('fa-download', () => downloadStorage(storage), i18n.t("download.button")).addTo(map);
+    L.easyButton(fontAwesomeSymbol, () => downloadStorage(storage), i18n.t("download.button")).addTo(map);
 }

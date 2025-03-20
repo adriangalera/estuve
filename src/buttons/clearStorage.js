@@ -1,3 +1,5 @@
+export const fontAwesomeSymbol = 'fa-trash'
+
 export const clearStorage = (storage, i18next) => {
     const fileLoadStorage = storage.fileLoadedCache
     const qtStorage = storage.qtStorage
@@ -12,7 +14,7 @@ export const clearStorage = (storage, i18next) => {
     }
 }
 export const addClearStorageButton = (map, storage, i18next) => {
-    return L.easyButton('fa-trash', function (btn, map) {
+    return L.easyButton(fontAwesomeSymbol, function (btn, map) {
         clearStorage(storage, i18next)
     }, i18next.t("clear.button")).addTo(map);
 }

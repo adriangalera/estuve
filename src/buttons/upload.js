@@ -4,6 +4,8 @@ import { QuadTreeNode } from "../quadtree"
 const METERS_TOLERANCE = 10;
 const UPDATE_MAP_EACH = 50;
 
+export const fontAwesomeSymbol = 'fa-upload'
+
 export const addUploadButton = (map, progressBar, i18next, storage) => {
     const { qt, fileLoadedCache, qtStorage } = storage
     const quadtree = qt
@@ -79,5 +81,5 @@ export const addUploadButton = (map, progressBar, i18next, storage) => {
     fileInput.addEventListener('change', handleMultipleGpxUpload);
 
     // Add a Leaflet EasyButton to trigger file selection by clicking the hidden file input
-    L.easyButton('fa-upload', () => fileInput.click(), i18next.t("upload.button")).addTo(map);
+    L.easyButton(fontAwesomeSymbol, () => fileInput.click(), i18next.t("upload.button")).addTo(map);
 }
