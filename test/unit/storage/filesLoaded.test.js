@@ -65,4 +65,16 @@ describe("FileLoadStorage", () => {
 
         expect(localStorage.removeItem).toHaveBeenCalledWith("uploadedFiles");
     });
+    it("should return all loaded files", () => {
+        localStorage.getItem.mockImplementation(() => "[1,2]")
+
+        const allFiles = fileStorage.getAll()
+
+        expect(allFiles).toStrictEqual([1, 2])
+    })
+    it("should set all files", () => {
+        fileStorage.putAll([1,2])
+
+        expect(localStorage.setItem).toHaveBeenCalled("[1,2]")
+    })
 });

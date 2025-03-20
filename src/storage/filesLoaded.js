@@ -16,6 +16,12 @@ export const FileLoadStorage = () => {
         },
         clear() {
             localStorage.removeItem(LOCALSTORAGE_NAME);
+        },
+        getAll() {
+            return JSON.parse(localStorage.getItem(LOCALSTORAGE_NAME)) || [];
+        },
+        putAll(files) {
+            localStorage.setItem(LOCALSTORAGE_NAME, JSON.stringify(files));
         }
     }
 } 

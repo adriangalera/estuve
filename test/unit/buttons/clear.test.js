@@ -16,7 +16,7 @@ describe("ClearButtonStorage", () => {
             })
         }
         const map = vi.fn()
-        addClearStorageButton(map, vi.fn(), vi.fn(), vi.fn(), i18next)
+        addClearStorageButton(map, vi.fn(), i18next)
         expect(addToMapMock).toHaveBeenCalledWith(map)
         expect(passedCallback).toBeDefined()
     })
@@ -29,9 +29,9 @@ describe("ClearButtonStorage", () => {
         const fileLoadStorage = { clear: vi.fn() }
         const qtStorage = { clear: vi.fn() }
         const quadtree = { clear: vi.fn() }
-        
-        
-        clearStorage(fileLoadStorage, qtStorage, quadtree, i18next)
+        const storage = { qt : quadtree, fileLoadedCache: fileLoadStorage, qtStorage }
+
+        clearStorage(storage, i18next)
 
         expect(fileLoadStorage.clear).toHaveBeenCalled()
         expect(qtStorage.clear).toHaveBeenCalled()
@@ -48,8 +48,10 @@ describe("ClearButtonStorage", () => {
         const fileLoadStorage = { clear: vi.fn() }
         const qtStorage = { clear: vi.fn() }
         const quadtree = { clear: vi.fn() }
+        const storage = { qt : quadtree, fileLoadedCache: fileLoadStorage, qtStorage }
 
-        clearStorage(fileLoadStorage, qtStorage, quadtree, i18next)
+
+        clearStorage(storage, i18next)
 
         expect(fileLoadStorage.clear).not.toHaveBeenCalled()
         expect(qtStorage.clear).not.toHaveBeenCalled()

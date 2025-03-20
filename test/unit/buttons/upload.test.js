@@ -21,28 +21,30 @@ vi.mock("../../../src/parser/trackparser", () => ({
 
 vi.mock("../../../src/quadtree", () => ({
     QuadTreeNode: vi.fn(() => ({
-        fromObject: deserializeQuadTreeMock,
+        deserialize: deserializeQuadTreeMock,
     })),
 }));
 
 describe("addUploadButton", () => {
     let map, quadtree, fileInput, progressBar, fileLoadStorage, qtStorage
-    const i18next = { t: vi.fn().mockImplementation( () => "")}
+    const i18next = { t: vi.fn().mockImplementation(() => "") }
 
     beforeEach(() => {
         // Mock map and quadtree
         map = {};
         quadtree = { insertLatLng: vi.fn(), locationIsOnTree: vi.fn().mockImplementation(() => false) };
         progressBar = { loadWithCurrentTotal: vi.fn(), stop: vi.fn() }
-        fileLoadStorage = { isAlreadyLoaded: vi.fn().mockImplementation(() => false), saveUploadedFile: vi.fn() }
+        fileLoadStorage = { isAlreadyLoaded: vi.fn().mockImplementation(() => false), saveUploadedFile: vi.fn(), putAll: vi.fn() }
         qtStorage = { save: vi.fn() }
+        const storage = { qt: quadtree, fileLoadedCache: fileLoadStorage, qtStorage }
+
 
         // Create a fake file input in the DOM
         document.body.innerHTML = `<input type="file" id="gpxFileInput" multiple />`;
         fileInput = document.getElementById("gpxFileInput");
 
         // Call the function under test
-        addUploadButton(map, quadtree, progressBar, fileLoadStorage, qtStorage, i18next);
+        addUploadButton(map, progressBar, i18next, storage);
     });
 
     it("should add the button to the map", () => {
@@ -115,9 +117,16 @@ describe("addUploadButton", () => {
         expect(fileLoadStorage.saveUploadedFile).not.toHaveBeenCalledWith(file)
         expect(quadtree.insertLatLng).not.toHaveBeenCalled()
     })
-    it("should upload quadtree backup file", async () => {
-        const obj = { "key": "value" }
-        const file = new File([JSON.stringify(obj)], "estuve.bin", { type: "application/gpx+xml" });
+    it("should upload backup file", async () => {
+        const qtObj = { "key": "value" }
+        const loadedFiles = ["1", "2"]
+        const download = {
+            qt: JSON.stringify(qtObj),
+            filesLoaded: loadedFiles
+        }
+        const base64Data = btoa(JSON.stringify(download))
+
+        const file = new File([base64Data], "estuve.bin", { type: "application/gpx+xml" });
 
         const mockListener = vi.fn();
         document.addEventListener("mapUpdate", mockListener);
@@ -127,11 +136,12 @@ describe("addUploadButton", () => {
         waitFor(() => {
             expect(deserializeQuadTreeMock).toHaveBeenCalledWith(obj)
             expect(mockListener).toHaveBeenCalled()
+            expect(fileLoadStorage.putAll).toHaveBeenCalledWith(loadedFiles)
         })
 
     })
     it("should show alert when mixing file extensions", async () => {
-        const alertMock = vi.spyOn(window, "alert").mockImplementation(() => {});
+        const alertMock = vi.spyOn(window, "alert").mockImplementation(() => { });
 
         const mockListener = vi.fn();
         document.addEventListener("mapUpdate", mockListener);

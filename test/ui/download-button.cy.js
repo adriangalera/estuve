@@ -1,5 +1,5 @@
 const path = require("path");
-const emptyQuadtreeSize = 295
+const emptyBackupFile = 480
 
 describe("Download button", () => {
 
@@ -20,7 +20,7 @@ describe("Download button", () => {
         const downloadsFolder = Cypress.config("downloadsFolder");
         cy.readFile(path.join(downloadsFolder, "estuve.bin"), 'binary')
             .should("exist")
-            .should('have.length.gt', emptyQuadtreeSize)
+            .should('have.length.gt', emptyBackupFile)
     })
 
     it("Download empty quadtree", () => {
@@ -28,6 +28,6 @@ describe("Download button", () => {
         const downloadsFolder = Cypress.config("downloadsFolder");
         cy.readFile(path.join(downloadsFolder, "estuve.bin"), 'binary')
             .should("exist")
-            .should('have.length', emptyQuadtreeSize)
+            .should('have.length', emptyBackupFile)
     })
 })

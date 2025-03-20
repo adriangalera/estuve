@@ -59,7 +59,6 @@ const updateGeoJsonLayer = (newGeoJsonLayer) => {
     newGeoJsonLayer.addTo(map);
     geoJsonLayer = newGeoJsonLayer
     window.geoJsonLayer = geoJsonLayer
-    //overlays["Tracks"] = geoJsonLayer
     layerControl.addOverlay(geoJsonLayer, "Tracks")
 }
 
@@ -71,10 +70,12 @@ document.addEventListener('mapUpdate', (event) => {
 Promise.all([i18nPromise, qtStorage.load()])
     .then(([_, qt]) => {
 
+        const storage = { qt, fileLoadedCache, qtStorage }
+
         addInfoButton(map, i18next);
-        addUploadButton(map, qt, progressBar, fileLoadedCache, qtStorage, i18next);
-        addDownloadButton(map, qt, i18next);
-        addClearStorageButton(map, fileLoadedCache, qtStorage, qt, i18next);
+        addUploadButton(map, progressBar, i18next, storage);
+        addDownloadButton(map, storage, i18next);
+        addClearStorageButton(map, storage, i18next);
 
         const initialGeoJsonLayer = container.setFromQuadTree(qt);
         updateGeoJsonLayer(initialGeoJsonLayer);

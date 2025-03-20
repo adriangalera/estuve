@@ -1,5 +1,5 @@
 import { describe, it, vi, expect } from "vitest";
-import { addDownloadButton, downloadQuadtree } from "../../../src/buttons/download";
+import { addDownloadButton, downloadStorage } from "../../../src/buttons/download";
 
 describe("addDownloadButton", () => {
 
@@ -24,6 +24,9 @@ describe("addDownloadButton", () => {
         const quadtree = {
             serialize: vi.fn().mockImplementation(() => '{"key":"value"}')
         };
+        const fileLoadedCache = {
+            getAll: vi.fn().mockImplementation( () => ["1", "2"])
+        }
 
         // Create a real <a> element
         const realAnchor = document.createElement("a");
@@ -40,8 +43,13 @@ describe("addDownloadButton", () => {
         const appendChildSpy = vi.spyOn(document.body, "appendChild");
         const removeChildSpy = vi.spyOn(document.body, "removeChild");
 
+        const storage = {
+            qt: quadtree,
+            fileLoadedCache
+        }
+
         // Call function
-        downloadQuadtree(quadtree);
+        downloadStorage(storage);
 
         // Ensure serialize() was called
         expect(quadtree.serialize).toHaveBeenCalled();
@@ -49,8 +57,14 @@ describe("addDownloadButton", () => {
         // Ensure document.createElement("a") was called
         expect(createElementSpy).toHaveBeenCalledWith("a");
 
+        const download = {
+            qt: storage.qt.serialize(),
+            filesLoaded: storage.fileLoadedCache.getAll()
+        }
+        const base64Data = btoa(JSON.stringify(download))
+
         // Ensure correct attributes were set
-        expect(setAttributeSpy).toHaveBeenCalledWith("href", "data:text/json;charset=utf-8,%7B%22key%22%3A%22value%22%7D");
+        expect(setAttributeSpy).toHaveBeenCalledWith("href", `data:text;charset=utf-8,${base64Data}`);
         expect(setAttributeSpy).toHaveBeenCalledWith("download", "estuve.bin");
 
         // Ensure the element was added and removed from DOM

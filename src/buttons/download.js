@@ -1,13 +1,19 @@
-export const downloadQuadtree = (quadtree) => {
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(quadtree.serialize());
+export const downloadStorage = (storage) => {
+    const download = {
+        qt: storage.qt.serialize(),
+        filesLoaded: storage.fileLoadedCache.getAll()
+    }
+    const base64Data = btoa(JSON.stringify(download))
+    const dataStr = "data:text;charset=utf-8," + base64Data;
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute("href", dataStr);
     downloadAnchor.setAttribute("download", "estuve.bin");
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     document.body.removeChild(downloadAnchor);
+    
 }
 
-export const addDownloadButton = (map, quadtree, i18n) => {
-    L.easyButton('fa-download', () => downloadQuadtree(quadtree), i18n.t("download.button")).addTo(map);
+export const addDownloadButton = (map, storage, i18n) => {
+    L.easyButton('fa-download', () => downloadStorage(storage), i18n.t("download.button")).addTo(map);
 }

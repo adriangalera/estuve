@@ -4,7 +4,9 @@ import { QuadTreeNode } from "../quadtree"
 const METERS_TOLERANCE = 10;
 const UPDATE_MAP_EACH = 50;
 
-export const addUploadButton = (map, quadtree, progressBar, fileLoadedCache, qtStorage, i18next) => {
+export const addUploadButton = (map, progressBar, i18next, storage) => {
+    const { qt, fileLoadedCache, qtStorage } = storage
+    const quadtree = qt
 
     const triggerMapUpdate = (newQuadTree) => {
         qtStorage.save(newQuadTree)
@@ -51,9 +53,15 @@ export const addUploadButton = (map, quadtree, progressBar, fileLoadedCache, qtS
             const reader = new FileReader();
 
             reader.onload = () => {
-                const qtObject = JSON.parse(reader.result)
-                const qt = QuadTreeNode.fromObject(qtObject)
+                const strData = atob(reader.result)
+                const backup = JSON.parse(strData)
+                const newQt = backup.qt
+                const loadedFiles = backup.filesLoaded
+
+                storage.fileLoadedCache.putAll(loadedFiles)
+                const qt = QuadTreeNode.deserialize(newQt)
                 triggerMapUpdate(qt)
+                
             };
             reader.onerror = () => {
                 const message = `${i18next.t("upload.error")} ${files[0].name}`
