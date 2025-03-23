@@ -10,6 +10,9 @@ import "leaflet.markercluster.layersupport";
 import "leaflet-easybutton";
 import "leaflet-easybutton/src/easy-button.css";
 
+import 'leaflet-geosearch/dist/geosearch.css';
+import { SearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
+
 
 import { addInfoButton } from './buttons/infobutton';
 import { i18next, i18nPromise } from './i18n.js';
@@ -130,6 +133,13 @@ if (navigator.geolocation) {
         map.panTo(initialLatLng)
     })
 }
+
+const searchControl = new SearchControl({
+    provider: new OpenStreetMapProvider(),
+    style: 'bar',
+    showMarker: false
+});
+map.addControl(searchControl);
 
 //Export some libraries to global scope so that other libraries can find them.
 window.i18next = i18next

@@ -4,7 +4,8 @@
   "description": "estuve.eu lets you visualize all your gpx tracks in a leaflet map",
   "main": "index.js",
   "scripts": {
-    "dev": "vite --host",
+    "dev": "vite",
+    "dev:host": "vite --host",
     "test": "vitest --run && start-server-and-test dev http://localhost:5173 test:ui",
     "test:unit": "vitest",
     "test:unit:coverage": "vitest --coverage",
@@ -29,6 +30,7 @@
     "leaflet": "^1.9.4",
     "leaflet-easybutton": "^2.4.0",
     "leaflet-geojson-vt": "^1.1.0",
+    "leaflet-geosearch": "^4.2.0",
     "leaflet.markercluster": "^1.5.3",
     "leaflet.markercluster.layersupport": "^2.0.1",
     "xpath": "^0.0.34"
