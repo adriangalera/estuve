@@ -13,7 +13,8 @@
     "test:ui:ci": "start-server-and-test dev http://localhost:5173 test:ui",
     "preview": "vite build && vite preview",
     "build": "vite build",
-    "deploy": "vite build && touch dist/CNAME && echo 'estuve.eu' > dist/CNAME && gh-pages -d dist"
+    "sitemap": "node generate-sitemap.js",
+    "deploy": "vite build && touch dist/CNAME && echo 'estuve.eu' > dist/CNAME && node generate-sitemap.js && gh-pages -d dist"
   },
   "keywords": [],
   "author": "Adrian Galera",
