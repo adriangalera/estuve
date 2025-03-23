@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://estuve.eu/sitemap.xml
