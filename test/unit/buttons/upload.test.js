@@ -6,7 +6,6 @@ import { fireEvent, waitFor } from "@testing-library/dom";
 
 const addToMock = vi.fn()
 const parseGpxTrackInWorkerMock = vi.fn()
-const deserializeQuadTreeMock = vi.fn()
 global.L = {
     easyButton: vi.fn(() => {
         return { addTo: addToMock }
@@ -20,13 +19,13 @@ vi.mock("../../../src/parser/trackparser", () => ({
 }));
 
 vi.mock("../../../src/quadtree", () => ({
-    QuadTreeNode: vi.fn(() => ({
-        deserialize: deserializeQuadTreeMock,
-    })),
+    QuadTreeNode: {
+        deserialize: vi.fn().mockImplementation(() => { return { key: "value" } })
+    }
 }));
 
 describe("addUploadButton", () => {
-    let map, quadtree, fileInput, progressBar, fileLoadStorage, qtStorage
+    let map, quadtree, fileInput, progressBar, fileLoadStorage, qtStorage, layers
     const i18next = { t: vi.fn().mockImplementation(() => "") }
 
     beforeEach(() => {
@@ -36,7 +35,8 @@ describe("addUploadButton", () => {
         progressBar = { loadWithCurrentTotal: vi.fn(), stop: vi.fn() }
         fileLoadStorage = { isAlreadyLoaded: vi.fn().mockImplementation(() => false), saveUploadedFile: vi.fn(), putAll: vi.fn() }
         qtStorage = { save: vi.fn() }
-        const storage = { qt: quadtree, fileLoadedCache: fileLoadStorage, qtStorage }
+        layers = { putAll: vi.fn() }
+        const storage = { qt: quadtree, fileLoadedCache: fileLoadStorage, qtStorage, layers }
 
 
         // Create a fake file input in the DOM
@@ -122,21 +122,25 @@ describe("addUploadButton", () => {
         const loadedFiles = ["1", "2"]
         const download = {
             qt: JSON.stringify(qtObj),
-            filesLoaded: loadedFiles
+            filesLoaded: loadedFiles,
+            layers: ["a", "b"]
         }
         const base64Data = btoa(JSON.stringify(download))
 
         const file = new File([base64Data], "estuve.bin", { type: "application/gpx+xml" });
 
         const mockListener = vi.fn();
-        document.addEventListener("mapUpdate", mockListener);
+        document.addEventListener("mapUpdate", (event) => {
+            mockListener(event.detail)
+        });
 
         await fireEvent.change(fileInput, { target: { files: [file] } })
 
-        waitFor(() => {
-            expect(deserializeQuadTreeMock).toHaveBeenCalledWith(obj)
-            expect(mockListener).toHaveBeenCalled()
+        await waitFor(() => {
+            expect(QuadTreeNode.deserialize).toHaveBeenCalledWith(download.qt)
+            expect(mockListener).toHaveBeenCalledWith({ extraLayers: download.layers, qt: qtObj })
             expect(fileLoadStorage.putAll).toHaveBeenCalledWith(loadedFiles)
+            expect(layers.putAll).toHaveBeenCalled(download.layers)
         })
 
     })

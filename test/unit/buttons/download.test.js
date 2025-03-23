@@ -27,6 +27,9 @@ describe("addDownloadButton", () => {
         const fileLoadedCache = {
             getAll: vi.fn().mockImplementation( () => ["1", "2"])
         }
+        const layers = {
+            getAll: vi.fn().mockImplementation( () => ["l1", "l2"])
+        }
 
         // Create a real <a> element
         const realAnchor = document.createElement("a");
@@ -45,7 +48,8 @@ describe("addDownloadButton", () => {
 
         const storage = {
             qt: quadtree,
-            fileLoadedCache
+            fileLoadedCache,
+            layers
         }
 
         // Call function
@@ -59,7 +63,8 @@ describe("addDownloadButton", () => {
 
         const download = {
             qt: storage.qt.serialize(),
-            filesLoaded: storage.fileLoadedCache.getAll()
+            filesLoaded: storage.fileLoadedCache.getAll(),
+            layers: layers.getAll()
         }
         const base64Data = btoa(JSON.stringify(download))
 

@@ -1,5 +1,5 @@
 const path = require("path");
-const emptyBackupFile = 480
+const emptyBackupFile = 496
 
 describe("Download button", () => {
 

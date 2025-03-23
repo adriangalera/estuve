@@ -1,5 +1,6 @@
 import { TrackParser } from "../parser/trackparser";
 import { QuadTreeNode } from "../quadtree"
+import { Base64 } from 'js-base64';
 
 const METERS_TOLERANCE = 10;
 const UPDATE_MAP_EACH = 50;
@@ -10,9 +11,15 @@ export const addUploadButton = (map, progressBar, i18next, storage) => {
     const { qt, fileLoadedCache, qtStorage } = storage
     const quadtree = qt
 
-    const triggerMapUpdate = (newQuadTree) => {
+    const triggerMapUpdate = (newQuadTree, layers) => {
         qtStorage.save(newQuadTree)
-        document.dispatchEvent(new CustomEvent('mapUpdate', { detail: { qt: newQuadTree } }));
+        const details = {
+            qt: newQuadTree
+        }
+        if (layers) {
+            details["extraLayers"] = layers
+        }
+        document.dispatchEvent(new CustomEvent('mapUpdate', { detail: details }));
     }
 
     const getFileExtension = (filename) => filename.split('.').pop();
@@ -51,19 +58,21 @@ export const addUploadButton = (map, progressBar, i18next, storage) => {
                     fileLoadedCache.saveUploadedFile(file)
                 }
             }
+            triggerMapUpdate(quadtree)
         } else if (extension === "bin" && files.length == 1) {
             const reader = new FileReader();
 
             reader.onload = () => {
-                const strData = atob(reader.result)
+                const strData = Base64.decode(reader.result)
                 const backup = JSON.parse(strData)
                 const newQt = backup.qt
                 const loadedFiles = backup.filesLoaded
+                const layers = backup.layers
 
+                storage.layers.putAll(layers)
                 storage.fileLoadedCache.putAll(loadedFiles)
                 const qt = QuadTreeNode.deserialize(newQt)
-                triggerMapUpdate(qt)
-                
+                triggerMapUpdate(qt, layers)
             };
             reader.onerror = () => {
                 const message = `${i18next.t("upload.error")} ${files[0].name}`
@@ -74,7 +83,6 @@ export const addUploadButton = (map, progressBar, i18next, storage) => {
         }
 
         progressBar.stop()
-        triggerMapUpdate(quadtree)
     }
 
     const fileInput = document.getElementById('gpxFileInput');

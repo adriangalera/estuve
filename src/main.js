@@ -52,15 +52,15 @@ const updateGeoJsonLayer = (newGeoJsonLayer) => {
     layerControl.addOverlay(geoJsonLayer, "Tracks")
 }
 
-const updateExtraLayers = (geoJsonLayer) => {
+const updateExtraLayer = (geoJsonLayer) => {
     layerControl.addOverlay(geoJsonLayer, geoJsonLayer.options.name)
     extraLayers[geoJsonLayer.options.name] = geoJsonLayer
 }
 
 const removeExtraLayer = (layerName) => {
-    if(layerName === "ALL") {
+    if (layerName === "ALL") {
         const layers = Object.values(extraLayers)
-        for(let layer of layers){
+        for (let layer of layers) {
             layerControl.removeLayer(layer)
             map.removeLayer(layer)
         }
@@ -81,10 +81,18 @@ document.addEventListener('mapUpdate', (event) => {
     if (event.detail.extraLayer) {
         container.setFromExtralayer(event.detail.extraLayer)
             .then((geoJsonLayer) => {
-                updateExtraLayers(geoJsonLayer)
+                updateExtraLayer(geoJsonLayer)
             })
     }
-    if(event.detail.removedLayerName) {
+    if (event.detail.extraLayers) {
+        for (let layer of event.detail.extraLayers) {
+            container.setFromExtralayer(layer)
+                .then((geoJsonLayer) => {
+                    updateExtraLayer(geoJsonLayer)
+                })
+        }
+    }
+    if (event.detail.removedLayerName) {
         removeExtraLayer(event.detail.removedLayerName)
     }
 });
@@ -104,11 +112,11 @@ Promise.all([i18nPromise, qtStorage.load()])
         const initialGeoJsonLayer = container.setFromQuadTree(qt);
         updateGeoJsonLayer(initialGeoJsonLayer);
 
-        for(let extraLayer of layersStorage.getAll()) {
+        for (let extraLayer of layersStorage.getAll()) {
             container.setFromExtralayer(extraLayer)
-            .then((geoJsonLayer) => {
-                updateExtraLayers(geoJsonLayer)
-            })
+                .then((geoJsonLayer) => {
+                    updateExtraLayer(geoJsonLayer)
+                })
         }
 
     })
