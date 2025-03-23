@@ -11,12 +11,34 @@
   },
   "download": {
     "button": "Descargar",
-    "help" : "Descarga una copia de todo lo que hayas creado aqui."
+    "help": "Descarga una copia de todo lo que hayas creado aqui."
   },
   "upload": {
     "button": "Subir",
     "alert": "Subir ficheros con multiples extensions no está soportado. Suba ficheros GPX o un fichero .bin, pero de manera separada",
     "error": "Error subiendo fichero",
     "help": "Usa este boton para subir tus tracks en ficheros GPX, puedes subir multiples. Además se puede usar para subir el fichero estuve.bin generado por el boton de descargar."
+  },
+  "addlayer": {
+    "button": "Añade una capa",
+    "help": "Introduce una URL que apunte a un fichero <code>.geojson</code>. Si el fichero incluye una campo llamado <code>flag</code> puedes subrayar estas features usando el color especificado. Puedes ver un ejemplo <a target=\"_blank\" href=\"https: //raw.githubusercontent.com/adriangalera/100cims/refs/heads/main/data/100cims/cims.geojson\">aqui</a>.",
+    "text1": "<strong>Añade una capa nueva</strong>. Especifica el nombre, la URL a un fichero GeoJSON y el color para remarcar cuando la propiedad <code>flag</code> este seteada.",
+    "name": {
+      "field": "Nombre de la capa:",
+      "placeholder": "Nombre de la capa"
+    },
+    "url": {
+      "field": "URL del fichero GeoJSON:",
+      "placeholder": "URL a un fichero .geojson",
+      "explanation": "Introduce una URL a un fichero <code>.geojson</code>. Si el fichero incluye propiedades con nombre <code>flag</code>, se usará el color especificado para remarcarlas.<br>Puedes ver un ejemplo <a target=\"_blank\" href=\"https://raw.githubusercontent.com/adriangalera/100cims/refs/heads/main/data/100cims/cims.geojson\">aqui</a>."
+    },
+    "color": {
+      "field": "Color para remarcar las propiedades con flag:"
+    }
+  },
+  "layer": {
+    "button": "Gestiona tus capas",
+    "help": "Elimina tus capas creadas.",
+    "text": "Capas creadas:"
   }
 }

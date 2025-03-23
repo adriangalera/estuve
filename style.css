@@ -13,3 +13,28 @@ html {
 #gpxFileInput {
     display: none;
 }
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.help-text {
+    font-size: 14px;
+    color: gray;
+    font-style: italic;
+}
+
+.remove-layer-btn {
+    background: none;
+    border: none;
+    color: #c00;
+    cursor: pointer;
+    font-size: 1.1em;
+    margin-left: 0.5em;
+}
+
+.remove-layer-btn:hover {
+    color: #a00;
+}
