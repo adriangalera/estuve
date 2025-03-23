@@ -2,43 +2,49 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estuve - Visualize GPX Tracks</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Estuve – Upload, Deduplicate, and Visualize Your GPX Tracks</title>
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://estuve.eu" />
 
     <!-- SEO Metadata -->
     <meta name="description"
-        content="Upload and explore multiple GPX tracks effortlessly on an interactive map. Easily manage and declutter overlapping routes for a clean and seamless experience.">
-    <meta name="keywords" content="GPX, map, Leaflet, quadtree, deduplication, GIS, tracking">
-    <meta name="author" content="Estuve">
-    <meta property="og:title" content="Estuve - Visualize GPX Tracks">
+        content="Upload and explore multiple GPX tracks on an interactive Leaflet map. Automatically deduplicate overlapping tracks and add custom GeoJSON overlays for a clean, organized view." />
+    <meta name="keywords"
+        content="GPX, GPX viewer, GPX deduplication, upload GPX, GPX map, Leaflet, interactive map, GeoJSON overlay, GPX tracks visualization, GPS, route planner" />
+    <meta name="author" content="Estuve" />
+
+    <!-- Open Graph Metadata -->
+    <meta property="og:title" content="Estuve – Upload, Deduplicate, and Visualize Your GPX Tracks" />
     <meta property="og:description"
-        content="Visualize your GPX tracks with ease. Upload multiple routes, remove duplicates, and enjoy a smooth mapping experience.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://estuve.eu">
-    <meta property="og:image" content="/favicon.ico">
+        content="Upload your GPX files, remove duplicates, and visualize everything on a single map. Supports custom GeoJSON overlays." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://estuve.eu" />
+    <meta property="og:image" content="/favicon.ico" />
 
     <!-- Favicon -->
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
     <!-- CSS -->
-    <link rel="stylesheet" href="/style.css">    
+    <link rel="stylesheet" href="/style.css" />
 
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/9ed6982e32.js" crossorigin="anonymous" defer></script>
-
 </head>
 
 <body>
-    <input type="file" id="gpxFileInput" accept=".gpx,.bin" multiple>
+    <h1 class="visually-hidden">
+        Upload, deduplicate, and visualize your GPX tracks on a map
+    </h1>
+
+    <input type="file" id="gpxFileInput" accept=".gpx,.bin" multiple />
     <div id="map"></div>
 
     <!-- Main App Code -->
     <script type="module" src="src/main.js"></script>
-
 </body>
 
 </html>

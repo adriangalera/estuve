@@ -4,7 +4,7 @@
   "description": "estuve.eu lets you visualize all your gpx tracks in a leaflet map",
   "main": "index.js",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "test": "vitest --run && start-server-and-test dev http://localhost:5173 test:ui",
     "test:unit": "vitest",
     "test:unit:coverage": "vitest --coverage",
