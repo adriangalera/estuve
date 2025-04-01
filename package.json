@@ -15,7 +15,8 @@
     "preview": "vite build && vite preview",
     "build": "vite build",
     "sitemap": "node generate-sitemap.js",
-    "deploy": "vite build && touch dist/CNAME && echo 'estuve.eu' > dist/CNAME && node generate-sitemap.js && gh-pages -d dist"
+    "deploy": "vite build && touch dist/CNAME && echo 'estuve.eu' > dist/CNAME && node generate-sitemap.js && gh-pages -d dist",
+    "postinstall": "node scripts/patch-leaflet-geojson-vt.js"
   },
   "keywords": [],
   "author": "Adrian Galera",
