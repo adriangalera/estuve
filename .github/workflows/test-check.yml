@@ -24,3 +24,9 @@ jobs:
 
       - name: Run all tests (unit + UI)
         run: npm run test
+
+      - name: Upload cypress screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots

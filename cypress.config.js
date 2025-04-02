@@ -7,6 +7,5 @@ module.exports = defineConfig({
     supportFile: 'cypress/support/e2e.js', // Support scripts
     video: false, // Disable video recording for faster tests
     screenshotOnRunFailure: true, // Capture screenshots on failures
-  },
-  defaultCommandTimeout: 10_000
+  }
 });
