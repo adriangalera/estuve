@@ -8,4 +8,5 @@ module.exports = defineConfig({
     video: false, // Disable video recording for faster tests
     screenshotOnRunFailure: true, // Capture screenshots on failures
   },
+  defaultCommandTimeout: 10_000
 });
