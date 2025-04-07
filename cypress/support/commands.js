@@ -43,6 +43,18 @@ Cypress.Commands.add('shouldHaveSomePointsAdded', () => {
   });
 });
 
+Cypress.Commands.add('shouldHaveSomePointsAdded', () => {
+  cy.window({ timeout: 30000 }).should((win) => {
+    expect(win.geoJsonLayer.tileIndex.tileCoords.length).to.be.greaterThan(0);
+  });
+});
+
+Cypress.Commands.add('zoomOut', () => {
+  cy.window({ timeout: 30000 }).should((win) => {
+    win.map.setZoom(1)
+  });
+});
+
 
 Cypress.Commands.add('clearPoints', () => {
   cy.window().then(() => {

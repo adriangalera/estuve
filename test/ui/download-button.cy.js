@@ -15,6 +15,7 @@ describe("Download button", () => {
             "gpx/out-of-sync/chamonix-zermatt-6-cabane-des-vignettes-zermat-.gpx",
             { force: true });
         
+        cy.zoomOut()
         cy.shouldHaveSomePointsAdded()
 
         cy.get(".fa-download").click()
