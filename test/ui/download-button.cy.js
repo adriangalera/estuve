@@ -16,7 +16,7 @@ describe("Download button", () => {
             { force: true });
 
         cy.window().then((win) => {
-            console.log("tileCoords at start:", win?.geoJsonLayer?.tileIndex?.tileCoords);
+            cy.log("tileCoords at start:", win?.geoJsonLayer?.tileIndex?.tileCoords);
         });
         cy.shouldHaveSomePointsAdded();
 
