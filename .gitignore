@@ -8,3 +8,4 @@ scripts/suunto/data.json
 **/*.DS_Store
 
 cypress/downloads/
+cypress/videos
