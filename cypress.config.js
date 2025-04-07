@@ -10,7 +10,6 @@ module.exports = defineConfig({
     supportFile: 'cypress/support/e2e.js', // Support scripts
     video: true, // Disable video recording for faster tests
     screenshotOnRunFailure: true, // Capture screenshots on failures,
-    defaultCommandTimeout: 10_000,
     setupNodeEvents(on, config) { // Delete video if test pass
       on('after:spec', (spec, results) => {
         if (results && results.video) {

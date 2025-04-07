@@ -14,7 +14,9 @@ describe("Download button", () => {
         cy.get('input[type="file"]').selectFile(
             "gpx/out-of-sync/0-27-10-20-la-mola-318-m-100-cims-bonastre-tarragona.gpx",
             { force: true });
-
+        
+        cy.wait(1_000)
+        
         cy.shouldHaveSomePointsAdded()
         cy.get(".fa-download").click()
         const downloadsFolder = Cypress.config("downloadsFolder");
