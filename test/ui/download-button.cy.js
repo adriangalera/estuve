@@ -12,9 +12,11 @@ describe("Download button", () => {
 
     it("Downloads quadtree", () => {
         cy.get('input[type="file"]').selectFile(
-            "gpx/out-of-sync/0-27-10-20-la-mola-318-m-100-cims-bonastre-tarragona.gpx",
+            "gpx/out-of-sync/chamonix-zermatt-6-cabane-des-vignettes-zermat-.gpx",
             { force: true });
+        
         cy.shouldHaveSomePointsAdded()
+
         cy.get(".fa-download").click()
         const downloadsFolder = Cypress.config("downloadsFolder");
         cy.readFile(path.join(downloadsFolder, "estuve.bin"), 'binary')
