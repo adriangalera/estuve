@@ -1,5 +1,6 @@
 const { defineConfig } = require("cypress");
-const fs = require('fs')
+const fs = require('fs');
+const installLogsPrinter = require("cypress-terminal-report/src/installLogsPrinter");
 
 
 module.exports = defineConfig({
@@ -22,7 +23,10 @@ module.exports = defineConfig({
             fs.unlinkSync(results.video)
           }
         }
-      })
+      }),
+        installLogsPrinter(on, {
+          printLogsToConsole: "always",
+        });
     },
   }
 });
