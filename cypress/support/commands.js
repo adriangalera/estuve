@@ -39,13 +39,8 @@ Cypress.Commands.add('noPointsAdded', () => {
 
 Cypress.Commands.add('shouldHaveSomePointsAdded', () => {
   cy.window({ timeout: 30000 }).should((win) => {
-    expect(win.geoJsonLayer.tileIndex.tileCoords.length).to.be.greaterThan(0);
-  });
-});
-
-Cypress.Commands.add('shouldHaveSomePointsAdded', () => {
-  cy.window({ timeout: 30000 }).should((win) => {
-    expect(win.geoJsonLayer.tileIndex.tileCoords.length).to.be.greaterThan(0);
+    const tileCoords = win?.geoJsonLayer?.tileIndex?.tileCoords;
+    expect(tileCoords, "tileCoords to be present").to.be.an("array").and.have.length.greaterThan(0);
   });
 });
 
