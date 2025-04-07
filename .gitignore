@@ -9,3 +9,4 @@ scripts/suunto/data.json
 
 cypress/downloads/
 cypress/videos
+cypress/screenshots/
