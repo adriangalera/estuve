@@ -39,7 +39,7 @@ Cypress.Commands.add('noPointsAdded', () => {
 
 Cypress.Commands.add('shouldHaveSomePointsAdded', () => {
   cy.window().should((win) => {
-    expect(win.geoJsonLayer.tileIndex.tileCoords.length).not.to.equal(0);
+    expect(win.geoJsonLayer.tileIndex.tileCoords.length).to.be.greaterThan(0);
   });
 });
 
