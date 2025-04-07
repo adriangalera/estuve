@@ -8,14 +8,15 @@ describe("Download button", () => {
         cy.waitForI18next();
         cy.clearPoints();
         cy.noPointsAdded();
+
+        cy.wait(1_000)
     })
 
     it("Downloads quadtree", () => {
         cy.get('input[type="file"]').selectFile(
             "gpx/out-of-sync/chamonix-zermatt-6-cabane-des-vignettes-zermat-.gpx",
             { force: true });
-        
-        cy.zoomOut()
+
         cy.shouldHaveSomePointsAdded()
 
         cy.get(".fa-download").click()
