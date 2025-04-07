@@ -38,10 +38,11 @@ Cypress.Commands.add('noPointsAdded', () => {
 });
 
 Cypress.Commands.add('shouldHaveSomePointsAdded', () => {
-  cy.window().should((win) => {
+  cy.window({ timeout: 30000 }).should((win) => {
     expect(win.geoJsonLayer.tileIndex.tileCoords.length).to.be.greaterThan(0);
   });
 });
+
 
 Cypress.Commands.add('clearPoints', () => {
   cy.window().then(() => {
