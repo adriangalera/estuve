@@ -1,3 +1,4 @@
+const {slowCypressDown} = require("cypress-slow-down")
 const path = require("path");
 const emptyBackupFile = 496
 
@@ -11,6 +12,7 @@ describe("Download button", () => {
     })
 
     it("Downloads quadtree", () => {
+        slowCypressDown()
         cy.get('input[type="file"]').selectFile(
             "gpx/out-of-sync/chamonix-zermatt-6-cabane-des-vignettes-zermat-.gpx",
             { force: true });
