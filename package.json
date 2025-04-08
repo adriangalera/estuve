@@ -6,10 +6,11 @@
   "scripts": {
     "dev": "vite",
     "dev:host": "vite --host",
-    "test": "vitest --run && start-server-and-test dev http://localhost:5173 test:ui",
+    "test": "vitest --run && start-server-and-test dev http://localhost:5173 test:ui:chrome",
     "test:unit": "vitest",
     "test:unit:coverage": "vitest --coverage",
     "test:ui": "cypress run",
+    "test:ui:chrome": "cypress run --browser chrome",
     "test:ui:browser": "cypress open",
     "test:ui:ci": "start-server-and-test dev http://localhost:5173 test:ui",
     "preview": "vite build && vite preview",
