@@ -1,5 +1,5 @@
-.PHONY: download-gpx
-download-gpx:
+.PHONY: suunto
+suunto:
 	cp ~/Downloads/data.json scripts/suunto
 	node scripts/suunto/download.js
 .PHONY: gpx
