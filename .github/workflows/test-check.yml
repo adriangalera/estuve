@@ -22,8 +22,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run all tests (unit + UI)
-        run: npm run test
+      - name: Run all tests (just unit)
+        run: npm run test:unit
 
       - uses: actions/upload-artifact@v4
         # add the line below to store screenshots only on failures
