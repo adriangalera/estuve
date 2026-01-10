@@ -14,24 +14,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Estuve – Upload, Deduplicate, and Visualize Your GPX Tracks</title>
+    <title>Estuve – Plan Your Route</title>
 
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://estuve.eu" />
+    <link rel="canonical" href="https://estuve.eu/plan" />
 
     <!-- SEO Metadata -->
     <meta name="description"
-        content="Upload and explore multiple GPX tracks on an interactive Leaflet map. Automatically deduplicate overlapping tracks and add custom GeoJSON overlays for a clean, organized view." />
+        content="Plan your route by uploading GPX files and managing them on an interactive map. Visualize and organize your tracks for better route planning." />
     <meta name="keywords"
-        content="GPX, GPX viewer, GPX deduplication, upload GPX, GPX map, Leaflet, interactive map, GeoJSON overlay, GPX tracks visualization, GPS, route planner" />
+        content="GPX, route planner, GPX upload, GPX management, interactive map, Leaflet, GPS, route planning" />
     <meta name="author" content="Estuve" />
 
     <!-- Open Graph Metadata -->
-    <meta property="og:title" content="Estuve – Upload, Deduplicate, and Visualize Your GPX Tracks" />
+    <meta property="og:title" content="Estuve – Plan Your Route" />
     <meta property="og:description"
-        content="Upload your GPX files, remove duplicates, and visualize everything on a single map. Supports custom GeoJSON overlays." />
+        content="Plan your routes by uploading and managing GPX files on an interactive map." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://estuve.eu" />
+    <meta property="og:url" content="https://estuve.eu/plan" />
     <meta property="og:image" content="/favicon.ico" />
 
     <!-- Favicon -->
@@ -42,20 +42,19 @@
 
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/9ed6982e32.js" crossorigin="anonymous" defer></script>
-  <script type="module" crossorigin src="/assets/main-f2MQQUHs.js"></script>
+  <script type="module" crossorigin src="/assets/plan-BAqK2b27.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/maps-C6izXzfY.js">
   <link rel="stylesheet" crossorigin href="/assets/maps-CZEGxl65.css">
-  <link rel="stylesheet" crossorigin href="/assets/main-k-SYLBed.css">
 </head>
 
 <body>
     <h1 class="visually-hidden">
-        Upload, deduplicate, and visualize your GPX tracks on a map
+        Plan your route by uploading and managing GPX tracks
     </h1>
 
-    <input type="file" id="gpxFileInput" accept=".gpx,.bin" multiple />
+    <input type="file" id="planGpxFileInput" accept=".gpx" multiple style="display: none;" />
     <div id="map"></div>
 
-    <!-- Main App Code -->
+    <!-- Plan View App Code -->
 </body>
 </html>

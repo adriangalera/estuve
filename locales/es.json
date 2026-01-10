@@ -40,5 +40,21 @@
     "button": "Gestiona tus capas",
     "help": "Elimina tus capas creadas.",
     "text": "Capas creadas:"
+  },
+  "plan": {
+    "upload": {
+      "button": "Subir GPX",
+      "success": "Se subieron correctamente {{count}} archivo(s) GPX",
+      "partial": "Se subieron {{success}} archivo(s), fallaron {{failed}} archivo(s)"
+    },
+    "delete": {
+      "button": "Borrar Rutas",
+      "title": "Borrar Rutas GPX",
+      "text": "Selecciona las rutas a borrar:",
+      "noTracks": "No hay rutas para borrar. Sube algunos archivos GPX primero.",
+      "removeTitle": "Eliminar esta ruta",
+      "removeAll": "Eliminar Todas las Rutas",
+      "confirmAll": "¿Estás seguro de que quieres borrar todas las rutas?"
+    }
   }
 }
