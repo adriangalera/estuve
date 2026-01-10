@@ -40,5 +40,21 @@
     "button": "Manage the layers",
     "help": "Delete your created layers.",
     "text": "Layers created:"
+  },
+  "plan": {
+    "upload": {
+      "button": "Upload GPX",
+      "success": "Successfully uploaded {{count}} GPX file(s)",
+      "partial": "Uploaded {{success}} file(s), failed {{failed}} file(s)"
+    },
+    "delete": {
+      "button": "Delete Tracks",
+      "title": "Delete GPX Tracks",
+      "text": "Select tracks to delete:",
+      "noTracks": "No tracks to delete. Upload some GPX files first.",
+      "removeTitle": "Remove this track",
+      "removeAll": "Remove All Tracks",
+      "confirmAll": "Are you sure you want to delete all tracks?"
+    }
   }
 }

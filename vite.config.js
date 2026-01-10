@@ -3,7 +3,10 @@ export default {
   build: {
     outDir: "dist",
     rollupOptions: {
-      input: "index.html",
+      input: {
+        main: "index.html",
+        plan: "plan.html"
+      },
     },
   },
   server: {
