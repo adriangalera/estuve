@@ -23,7 +23,7 @@
   "author": "Adrian Galera",
   "license": "ISC",
   "dependencies": {
-    "fast-xml-parser": "^5.0.9",
+    "fast-xml-parser": "^5.3.4",
     "geojson-vt": "^4.0.2",
     "i18next": "^24.2.3",
     "i18next-browser-languagedetector": "^8.0.4",
