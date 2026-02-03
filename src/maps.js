@@ -38,13 +38,13 @@ export const registerMapsAndLayers = (map) => {
     });
 
 
-    const atemsmaps = L.tileLayer.wms('https://geoserver.atesmaps.org/wms', {
-        version: "1.3.0",
-        format: "image/png",
-        transparent: true,
-        layers: "ATES:ates_all",
-        tiled: true,
-    });
+    // const atemsmaps = L.tileLayer.wms('https://geoserver.atesmaps.org/wms', {
+    //     version: "1.3.0",
+    //     format: "image/png",
+    //     transparent: true,
+    //     layers: "ATES:ates_all",
+    //     tiled: true,
+    // });
 
     const topoIcgc = L.tileLayer('https://geoserveis.icgc.cat/servei/catalunya/mapa-base/wmts/topografic/MON3857NW/{z}/{x}/{y}.png', {
         maxZoom: 20,
@@ -73,7 +73,7 @@ export const registerMapsAndLayers = (map) => {
 
     const overlays = {
         "Allaus (ICGC)": allaus,
-        "Atesmaps": atemsmaps,
+        //"Atesmaps": atemsmaps,
         "Pendientes (IGN)": pendientes,
     };
 
