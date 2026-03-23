@@ -4,6 +4,7 @@ node_modules
 
 gpx/all
 gpx/suunto
+gpx/wikiloc
 scripts/suunto/data.json
 **/*.DS_Store
 
