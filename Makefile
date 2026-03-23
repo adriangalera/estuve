@@ -1,3 +1,7 @@
+.PHONY: sync
+sync:
+	node scripts/suunto/server.js
+
 .PHONY: suunto
 suunto:
 	cp ~/Downloads/data.json scripts/suunto
