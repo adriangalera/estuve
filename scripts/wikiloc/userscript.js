@@ -62,6 +62,21 @@ const extractTrackIds = (html) => {
     return [...new Set([...matches].map(m => m[1]))];
 };
 
+const extractTrackIdsFromDom = () => {
+    const links = document.querySelectorAll('a[href*="-trails/"]');
+    const ids = [];
+    for (const a of links) {
+        const m = a.getAttribute('href').match(/\/[\w-]+-trails\/[\w-]+-(\d+)$/);
+        if (m) ids.push(m[1]);
+    }
+    return [...new Set(ids)];
+};
+
+const extractMaxFromDom = () => {
+    const matches = [...document.documentElement.innerHTML.matchAll(/from=(\d+)(?:&amp;|&)to=\d+/g)];
+    return matches.length ? Math.max(...matches.map(m => parseInt(m[1]))) : 0;
+};
+
 // ── Profile page ─────────────────────────────────────────────────────────────
 
 const runProfilePage = async () => {
@@ -69,19 +84,22 @@ const runProfilePage = async () => {
         const userId = new URLSearchParams(location.search).get('id');
         if (!userId) throw new Error('Could not determine user ID from URL');
 
-        log('Fetching first page to count tracks...');
-        const firstPage = await fetchPage(`https://www.wikiloc.com/wikiloc/user.do?id=${userId}&from=0&to=${PAGE_SIZE}`);
-        const allIds = extractTrackIds(firstPage);
+        const privateToggle = await waitForElement('#show-private-trails-toggle');
+        if (!privateToggle.checked) {
+            log('Enabling private tracks...');
+            privateToggle.click();
+            await delay(2000);
+        }
 
-        const lastPageMatches = [...firstPage.matchAll(/from=(\d+)&to=\d+/g)];
-        const maxFrom = lastPageMatches.length
-            ? Math.max(...lastPageMatches.map(m => parseInt(m[1])))
-            : 0;
+        log('Reading current page for tracks...');
+        const allIds = extractTrackIdsFromDom();
+        const maxFrom = extractMaxFromDom();
+        const showPrivate = privateToggle.checked;
+        const baseUrl = `https://www.wikiloc.com/wikiloc/user.do?id=${userId}${showPrivate ? '&showPrivateTrails=true' : ''}`;
 
         if (maxFrom > 0) {
-            const totalPages = Math.ceil((maxFrom + PAGE_SIZE) / PAGE_SIZE);
             for (let from = PAGE_SIZE; from <= maxFrom; from += PAGE_SIZE) {
-                const html = await fetchPage(`https://www.wikiloc.com/wikiloc/user.do?id=${userId}&from=${from}&to=${from + PAGE_SIZE}`);
+                const html = await fetchPage(`${baseUrl}&from=${from}&to=${from + PAGE_SIZE}`);
                 for (const id of extractTrackIds(html)) if (!allIds.includes(id)) allIds.push(id);
                 log(`Fetching pages... (${allIds.length} tracks found)`);
             }
