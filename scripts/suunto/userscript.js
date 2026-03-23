@@ -15,7 +15,24 @@ const LOCAL_SERVER = 'http://127.0.0.1:7432/data';
 const SHOW_MORE_CLICKS = 100;
 const CLICK_DELAY_MS = 500;
 
-const log = (msg) => console.log(`[Sports Tracker Export] ${msg}`);
+let banner = null;
+const showStatus = (msg, { error = false } = {}) => {
+    if (!banner) {
+        banner = document.createElement('div');
+        banner.id = 'st-export-banner';
+        Object.assign(banner.style, {
+            position: 'fixed', bottom: '20px', right: '20px', zIndex: '99999',
+            background: '#1a1a2e', color: '#e0e0e0', fontFamily: 'monospace',
+            fontSize: '13px', padding: '10px 16px', borderRadius: '6px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.4)', maxWidth: '360px',
+        });
+        document.documentElement.appendChild(banner);
+    }
+    banner.style.borderLeft = `4px solid ${error ? '#e74c3c' : '#2ecc71'}`;
+    banner.textContent = msg;
+};
+
+const log = (msg) => { console.log(`[Sports Tracker Export] ${msg}`); showStatus(msg); };
 
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -85,6 +102,7 @@ const run = async () => {
         log(`Done! Server received ${result.workouts} workouts and started the download pipeline.`);
     } catch (err) {
         log(`Error: ${err.message}`);
+        showStatus(`Error: ${err.message}`, { error: true });
     }
 };
 
