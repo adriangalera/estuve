@@ -7,8 +7,8 @@ test('Creates an empty quadtree representing the world', () => {
   expect(qt.southEastCoord).toEqual(new LngLat(180, -90))
   expect(qt.southWestCoord).toEqual(new LngLat(-180, -90))
 
-  expect(qt.nortEastChild).toEqual(undefined)
-  expect(qt.nortWestChild).toEqual(undefined)
+  expect(qt.northEastChild).toEqual(undefined)
+  expect(qt.northWestChild).toEqual(undefined)
   expect(qt.southEastChild).toEqual(undefined)
   expect(qt.southWestChild).toEqual(undefined)
 
@@ -136,7 +136,7 @@ test("meters to lat/lng", () => {
   const qt = QuadTreeNode.empty()
   const { lat_drift_allowed, lng_drift_allowed } = qt.latLngTolerance(41.367228, 2.076431, 10)
   expect(lat_drift_allowed).toEqual(0.00008983111749910169)
-  expect(lng_drift_allowed).toEqual(0.00011968239493702266)
+  expect(lng_drift_allowed).toEqual(0.0001196967485574433)
 })
 
 test("reproduce bug in unique/index.html", () => {

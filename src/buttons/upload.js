@@ -4,6 +4,7 @@ import { Base64 } from 'js-base64';
 
 const METERS_TOLERANCE = 10;
 const UPDATE_MAP_EACH = 50;
+const MAX_FILE_SIZE_BYTES = 100 * 1024 * 1024; // 100 MB
 
 export const fontAwesomeSymbol = 'fa-upload'
 
@@ -30,24 +31,39 @@ export const addUploadButton = (map, progressBar, i18next, storage) => {
         if (!files.length) return;
 
         progressBar.loadWithCurrentTotal(0, files.length)
+        const oversized = Array.from(files).find(f => f.size > MAX_FILE_SIZE_BYTES);
+        if (oversized) {
+            alert(`${i18next.t("upload.error")} ${oversized.name} (file too large, max 100 MB)`);
+            fileInput.value = '';
+            return;
+        }
+
         const uniqueExtensions = new Set(Array.from(files).map((f) => getFileExtension(f.name)))
         if (uniqueExtensions.size > 1) {
             alert(i18next.t("upload.alert"))
+            fileInput.value = '';
             return;
         }
         const extension = uniqueExtensions.values().next().value
 
         if (extension === "gpx") {
             let counter = 0
+            let newPointsCount = 0
             for (let file of files) {
                 if (!fileLoadedCache.isAlreadyLoaded(file)) {
                     const response = await parser.parseGpxTrackInWorker(file)
+                    if (response.error) {
+                        console.error(`Failed to parse ${file.name}: ${response.error}`);
+                    }
                     const points = response.data
                     for (let point of points) {
                         const lat = point.lat
                         const lng = point.lon
-                        if (!quadtree.locationIsOnTree(lat, lng, METERS_TOLERANCE)) {
+                        if (Number.isFinite(lat) && Number.isFinite(lng) &&
+                            lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180 &&
+                            !quadtree.locationIsOnTree(lat, lng, METERS_TOLERANCE)) {
                             quadtree.insertLatLng(lat, lng)
+                            newPointsCount += 1
                         }
                     }
                     counter += 1
@@ -59,20 +75,32 @@ export const addUploadButton = (map, progressBar, i18next, storage) => {
                 }
             }
             triggerMapUpdate(quadtree)
+            document.dispatchEvent(new CustomEvent('newPointsAdded', { detail: { count: newPointsCount } }))
         } else if (extension === "bin" && files.length == 1) {
             const reader = new FileReader();
 
             reader.onload = () => {
-                const strData = Base64.decode(reader.result)
-                const backup = JSON.parse(strData)
-                const newQt = backup.qt
-                const loadedFiles = backup.filesLoaded
-                const layers = backup.layers
+                try {
+                    const strData = Base64.decode(reader.result)
+                    const backup = JSON.parse(strData)
 
-                storage.layers.putAll(layers)
-                storage.fileLoadedCache.putAll(loadedFiles)
-                const qt = QuadTreeNode.deserialize(newQt)
-                triggerMapUpdate(qt, layers)
+                    if (!backup || typeof backup !== 'object') throw new Error('Invalid backup format');
+                    if (!('qt' in backup) || backup.qt == null) throw new Error('Missing qt field');
+                    if (!Array.isArray(backup.filesLoaded)) throw new Error('Missing or invalid filesLoaded field');
+                    if (!Array.isArray(backup.layers)) throw new Error('Missing or invalid layers field');
+
+                    const newQt = backup.qt
+                    const loadedFiles = backup.filesLoaded
+                    const layers = backup.layers
+
+                    storage.layers.putAll(layers)
+                    storage.fileLoadedCache.putAll(loadedFiles)
+                    const qt = QuadTreeNode.deserialize(newQt)
+                    triggerMapUpdate(qt, layers)
+                } catch (e) {
+                    console.error('Failed to restore backup:', e);
+                    alert(`${i18next.t("upload.error")} ${files[0].name}: ${e.message}`);
+                }
             };
             reader.onerror = () => {
                 const message = `${i18next.t("upload.error")} ${files[0].name}`

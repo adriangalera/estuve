@@ -1,3 +1,8 @@
+// meters per degree of latitude (approximate, varies from ~110.567km at equator to ~111.699km at poles)
+const METERS_PER_DEGREE_LAT = 111320.0;
+// pi / 180 — converts degrees to radians for cos() calculation
+const DEG_TO_RAD = Math.PI / 180;
+
 export class LngLat {
     constructor(lng, lat) {
         this.lat = lat
@@ -21,11 +26,6 @@ export class QuadTreeNode {
         // node values
         this.values = []
         this.maxCapacity = maxCapacityperNode
-
-        this.verbose = false
-    }
-    json() {
-        return JSON.stringify({ "ne": this.northEastCoord, "nw": this.northWestCoord, "se": this.southEastCoord, "sw": this.southWestCoord })
     }
     static empty(maxCapacityperNode = 100) {
         return new QuadTreeNode(new LngLat(180, 90), new LngLat(-180, 90), new LngLat(180, -90), new LngLat(-180, -90), maxCapacityperNode)
@@ -49,17 +49,11 @@ export class QuadTreeNode {
             const insertedNorthWest = this.northWestChild.insert(lnglat)
             const insertedSouthEast = this.southEastChild.insert(lnglat)
             const insertedSouthWest = this.southWestChild.insert(lnglat)
-            if (this.verbose)
-                console.log(`Item ${JSON.stringify(lnglat)} inserted in NE:${insertedNorthEast}, NW:·${insertedNorthWest}, SE:${insertedSouthEast}, SW:${insertedSouthWest}`)
             return insertedNorthEast || insertedNorthWest || insertedSouthEast || insertedSouthWest
         } else {
-            if (this.verbose)
-                console.log(`Insert ${JSON.stringify(lnglat)} into ${this.json()}`)
             this.values.push(lnglat)
 
             if (this.values.length >= this.maxCapacity) {
-                if (this.verbose)
-                    console.log("Splitting into four nodes more ....")
                 this.northEastChild = new QuadTreeNode(
                     this.northEastCoord,
                     new LngLat((this.northEastCoord.lng + this.northWestCoord.lng) / 2, this.northEastCoord.lat),
@@ -91,14 +85,10 @@ export class QuadTreeNode {
 
                 for (let item of this.values) {
                     const insertedNorthEast = this.northEastChild.insert(item)
-                    const insertedNorthWest = this.northWestChild.insert(item)
-                    const insertedSouthEast = this.southEastChild.insert(item)
-                    const insertedSouthWest = this.southWestChild.insert(item)
-                    if (this.verbose)
-                        console.log(`Item ${JSON.stringify(item)} inserted in NE:${insertedNorthEast}, NW:·${insertedNorthWest}, SE:${insertedSouthEast}, SW:${insertedSouthWest}`)
+                    this.northWestChild.insert(item)
+                    this.southEastChild.insert(item)
+                    this.southWestChild.insert(item)
                 }
-                if (this.verbose)
-                    console.log(`Reset items in ${JSON.stringify(this.json())}`)
                 this.values = []
             }
 
@@ -136,16 +126,10 @@ export class QuadTreeNode {
         return lat_diff <= lat_drift_allowed && lng_diff <= lng_drift_allowed
     }
     latLngTolerance(lat, lng, meters) {
-        //https://stackoverflow.com/questions/7477003/calculating-new-longitude-latitude-from-old-n-meters
-        // number of km per degree = ~111km (111.32 in google maps, but range varies
-        // between 110.567km at the equator and 111.699km at the poles)
-        //
-        // 111.32km = 111320.0m (".0" is used to make sure the result of division is
-        // double even if the "meters" variable can't be explicitly declared as double)
-        const coef = meters / 111320.0;
+        // https://stackoverflow.com/questions/7477003/calculating-new-longitude-latitude-from-old-n-meters
+        const coef = meters / METERS_PER_DEGREE_LAT;
         const lat_drift_allowed = coef;
-        // pi / 180 ~= 0.01745
-        const lng_drift_allowed = coef / Math.cos(lat * 0.01745);
+        const lng_drift_allowed = coef / Math.cos(lat * DEG_TO_RAD);
         return { lat_drift_allowed, lng_drift_allowed }
     }
     points() {
@@ -222,8 +206,6 @@ export class QuadTreeNode {
         return node;
     }
     clear() {
-        if (this.verbose)
-            console.log("Clearing quadtree");
         this.northEastCoord = new LngLat(180, 90)
         this.northWestCoord = new LngLat(-180, 90)
         this.southEastCoord = new LngLat(180, -90)

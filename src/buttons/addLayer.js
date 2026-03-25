@@ -1,58 +1,56 @@
+import { openPanel, closePanel, onPanelOpen } from "../ui/panel.js";
+
 export const fontAwesomeSymbol = 'fa-plus'
 
-export const formSubmitListener = (popup, storage) => {
+export const formSubmitListener = (storage) => {
     const form = document.getElementById("geojson-layer-form");
     if (form) {
         form.addEventListener("submit", function (event) {
             event.preventDefault();
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
-            storage.layers.putLayer(data)
-            popup.closePopup();
+            storage.layers.putLayer(data);
+            closePanel();
             document.dispatchEvent(new CustomEvent('mapUpdate', { detail: { extraLayer: data } }));
         });
     }
-}
+};
 
-export const extraLayerPopup = (map, i18next) => {
+export const extraLayerPopup = (storage, i18next) => {
+    const content = `
+        <div class="popup-form-container">
+            <div class="popup-form-header">
+                <div class="popup-form-title">${i18next.t("addlayer.button")}</div>
+                <div class="popup-form-subtitle">${i18next.t("addlayer.text1")}</div>
+            </div>
+            <form id="geojson-layer-form">
+                <div class="form-group">
+                    <label for="new-layer-name">${i18next.t("addlayer.name.field")}</label>
+                    <input required type="text" id="new-layer-name" name="name" placeholder="${i18next.t("addlayer.name.placeholder")}">
+                </div>
 
-    const translatedHtml = `
-        <form id="geojson-layer-form">
-            <p>${i18next.t("addlayer.text1")}</p>
+                <div class="form-group">
+                    <label for="new-layer-url">${i18next.t("addlayer.url.field")}</label>
+                    <input required type="url" id="new-layer-url" name="url" placeholder="${i18next.t("addlayer.url.placeholder")}">
+                    <small class="help-text">${i18next.t("addlayer.url.explanation")}</small>
+                </div>
 
-            <label for="new-layer-name">${i18next.t("addlayer.name.field")}</label>
-            <input required type="text" id="new-layer-name" name="name" required placeholder="${i18next.t("addlayer.name.placeholder")}">
+                <div class="form-group">
+                    <label for="new-layer-color">${i18next.t("addlayer.color.field")}</label>
+                    <input required type="color" id="new-layer-color" name="color">
+                </div>
 
-            <label for="new-layer-url">${i18next.t("addlayer.url.field")}</label>
-            <input required type="url" id="new-layer-url" name="url" required placeholder="${i18next.t("addlayer.name.placeholder")}">
-            <small class="help-text">
-            ${i18next.t("addlayer.url.explanation")}
-            </small>
+                <button type="submit" class="btn-primary">${i18next.t("addlayer.button")}</button>
+            </form>
+        </div>
+    `;
+    openPanel("add-layer-form", content);
+};
 
-            <label for="new-layer-color">${i18next.t("addlayer.color.field")}</label>
-            <input required type="color" id="new-layer-color" name="color">
-
-            <button type="submit">${i18next.t("addlayer.button")}</button>
-        </form>
-     `;
-
-
-    L.popup({ id: "add-layer-form" })
-        .setLatLng(map.getCenter())
-        .setContent(translatedHtml)
-        .openOn(map);
-}
 export const addExtraLayerButton = (map, storage, i18next) => {
+    onPanelOpen("add-layer-form", () => formSubmitListener(storage));
 
-    map.on('popupopen', function (e) {
-        const popupId = e.popup.options?.id
-        if (popupId === "add-layer-form") {
-            formSubmitListener(e.target, storage)
-        }
-    });
-
-
-    return L.easyButton(fontAwesomeSymbol, function (btn, map) {
-        extraLayerPopup(map, i18next)
+    return L.easyButton(fontAwesomeSymbol, () => {
+        extraLayerPopup(storage, i18next);
     }, i18next.t("addlayer.button")).addTo(map);
-}
+};

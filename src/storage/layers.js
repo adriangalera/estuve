@@ -2,19 +2,30 @@ export const LayersStorage = () => {
 
     const LOCALSTORAGE_NAME = "layers";
 
+    const parseStored = () => {
+        try {
+            const parsed = JSON.parse(localStorage.getItem(LOCALSTORAGE_NAME));
+            return Array.isArray(parsed) ? parsed : [];
+        } catch (e) {
+            console.error('Failed to parse layers from localStorage:', e);
+            localStorage.removeItem(LOCALSTORAGE_NAME);
+            return [];
+        }
+    };
+
     return {
         putLayer(layer) {
-            const layers = JSON.parse(localStorage.getItem(LOCALSTORAGE_NAME)) || [];
+            const layers = parseStored();
             const newLayers = [...layers, layer];
             localStorage.setItem(LOCALSTORAGE_NAME, JSON.stringify(newLayers));
         },
         removeLayer(layerName) {
-            const layers = JSON.parse(localStorage.getItem(LOCALSTORAGE_NAME)) || [];
+            const layers = parseStored();
             const newLayers = layers.filter(l => l.name !== layerName);
             localStorage.setItem(LOCALSTORAGE_NAME, JSON.stringify(newLayers));
         },
         getAll() {
-            return JSON.parse(localStorage.getItem(LOCALSTORAGE_NAME)) || [];
+            return parseStored();
         },
         putAll(layers) {
             localStorage.setItem(LOCALSTORAGE_NAME, JSON.stringify(layers));

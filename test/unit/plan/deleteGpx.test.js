@@ -2,35 +2,14 @@ import { describe, it, vi, expect, beforeEach } from "vitest";
 import { addPlanDeleteButton } from "../../../src/plan/deleteGpx";
 import { fireEvent } from "@testing-library/dom";
 
-// Mock Leaflet - Must be before imports
-vi.mock("leaflet", () => {
-    const addToMock = vi.fn();
-    const popupMock = {
-        setLatLng: vi.fn().mockReturnThis(),
-        setContent: vi.fn().mockReturnThis(),
-        openOn: vi.fn().mockReturnThis()
-    };
-    return {
-        default: {
-            easyButton: vi.fn(() => ({ addTo: addToMock })),
-            popup: vi.fn(() => popupMock)
-        },
-        easyButton: vi.fn(() => ({ addTo: addToMock })),
-        popup: vi.fn(() => popupMock)
-    };
-});
+const { addToMock } = vi.hoisted(() => ({ addToMock: vi.fn() }));
 
-// Mock Leaflet
-const addToMock = vi.fn();
-const popupMock = {
-    setLatLng: vi.fn().mockReturnThis(),
-    setContent: vi.fn().mockReturnThis(),
-    openOn: vi.fn().mockReturnThis()
-};
-global.L = {
+vi.mock("leaflet", () => ({
+    default: {
+        easyButton: vi.fn(() => ({ addTo: addToMock })),
+    },
     easyButton: vi.fn(() => ({ addTo: addToMock })),
-    popup: vi.fn(() => popupMock)
-};
+}));
 
 describe("addPlanDeleteButton", () => {
     let map, gpxManager, layerControl;
@@ -61,8 +40,8 @@ describe("addPlanDeleteButton", () => {
         addPlanDeleteButton(map, gpxManager, layerControl, i18next);
     });
 
-    it("should register popup open event listener", () => {
-        expect(map.on).toHaveBeenCalledWith('popupopen', expect.any(Function));
+    it("should add the delete button to the map", () => {
+        expect(addToMock).toHaveBeenCalledWith(map);
     });
 
     it("should show alert when no tracks to delete", () => {

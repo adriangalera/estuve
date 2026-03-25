@@ -2,14 +2,24 @@ export const FileLoadStorage = () => {
 
     const LOCALSTORAGE_NAME = "uploadedFiles";
 
+    const parseStored = () => {
+        try {
+            const parsed = JSON.parse(localStorage.getItem(LOCALSTORAGE_NAME));
+            return Array.isArray(parsed) ? parsed : [];
+        } catch (e) {
+            console.error('Failed to parse uploaded files from localStorage:', e);
+            localStorage.removeItem(LOCALSTORAGE_NAME);
+            return [];
+        }
+    };
+
     return {
         isAlreadyLoaded(file) {
-            const loadedFiles = JSON.parse(localStorage.getItem(LOCALSTORAGE_NAME)) || [];
-            return loadedFiles.includes(file.name)
+            return parseStored().includes(file.name);
         },
         saveUploadedFile(file) {
             if (!this.isAlreadyLoaded(file)) {
-                const existingFiles = JSON.parse(localStorage.getItem(LOCALSTORAGE_NAME)) || [];
+                const existingFiles = parseStored();
                 const newFiles = [...existingFiles, file.name];
                 localStorage.setItem(LOCALSTORAGE_NAME, JSON.stringify(newFiles));
             }
@@ -18,7 +28,7 @@ export const FileLoadStorage = () => {
             localStorage.removeItem(LOCALSTORAGE_NAME);
         },
         getAll() {
-            return JSON.parse(localStorage.getItem(LOCALSTORAGE_NAME)) || [];
+            return parseStored();
         },
         putAll(files) {
             localStorage.setItem(LOCALSTORAGE_NAME, JSON.stringify(files));

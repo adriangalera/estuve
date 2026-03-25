@@ -5,6 +5,7 @@ const loader = {
     },
     loadWithCurrentTotal: (current, total) => {
         const progressbar = document.getElementsByClassName('loader')[0]
+        if (!progressbar) return;
         progressbar.min = 0
         progressbar.max = total
         progressbar.value = current
@@ -12,10 +13,13 @@ const loader = {
     },
     load: () => {
         const progressbar = document.getElementsByClassName('loader')[0]
+        if (!progressbar) return;
         progressbar.style.display = "block"
     },
     stop: () => {
-        document.getElementsByClassName('loader')[0].style.display = "none"
+        const progressbar = document.getElementsByClassName('loader')[0]
+        if (!progressbar) return;
+        progressbar.style.display = "none"
     }
 }
 

@@ -41,8 +41,15 @@ export const GeoJsonContainer = () => {
             return L.geoJson.vt(geojson, options);
         },
         async setFromExtralayer(layer) {
+            const url = new URL(layer.url);
+            if (!['https:', 'http:'].includes(url.protocol)) {
+                return Promise.reject(new Error(`Unsupported URL protocol: ${url.protocol}`));
+            }
             return fetch(layer.url)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) throw new Error(`Failed to fetch layer: HTTP ${response.status}`);
+                    return response.json();
+                })
                 .then(geojson => L.geoJson.vt(geojson, {
                     name: layer.name,
                     style: function (properties) {
@@ -53,8 +60,11 @@ export const GeoJsonContainer = () => {
                             opacity: 1
                         };
                     }
-                })
-                )
+                }))
+                .catch(error => {
+                    console.error(`Failed to load layer "${layer.name}":`, error);
+                    return Promise.reject(error);
+                });
         }
     }
 }

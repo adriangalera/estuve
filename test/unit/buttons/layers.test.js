@@ -14,13 +14,10 @@ describe("manageLayersButton", () => {
                 return { addTo: addToMapMock }
             })
         }
-        const map = {
-            on: vi.fn()
-        }
+        const map = {}
         addLayerManagementButton(map, vi.fn(), i18next)
         expect(addToMapMock).toHaveBeenCalledWith(map)
         expect(passedCallback).toBeDefined()
-        expect(map.on).toHaveBeenCalledWith("popupopen", expect.anything())
     })
 
     it("should delete a created layer", () => {
