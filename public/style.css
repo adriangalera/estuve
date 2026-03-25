@@ -775,6 +775,67 @@ form {
 }
 
 /* =====================================================
+   MOBILE / SAFE AREA (iPhone & small screens)
+   ===================================================== */
+@media (max-width: 767px) {
+    /* Collapse map controls to avoid crowding */
+    .leaflet-control-layers-list {
+        min-width: 160px;
+    }
+
+    /* Larger touch targets */
+    .leaflet-bar a,
+    .leaflet-bar button {
+        width: 44px !important;
+        height: 44px !important;
+        line-height: 44px !important;
+    }
+
+    /* Shrink search bar so it doesn't cover other controls */
+    .leaflet-geosearch-bar {
+        max-width: 170px !important;
+    }
+
+    .leaflet-geosearch-bar form input {
+        width: 100px !important;
+        min-width: 0 !important;
+    }
+
+    /* Results can span wider than the bar */
+    .leaflet-control-geosearch .results {
+        max-width: calc(100vw - 24px) !important;
+        box-sizing: border-box !important;
+    }
+
+    .leaflet-control-geosearch .results > * {
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+    /* Responsive panel widths */
+    .info-popup,
+    .popup-panel,
+    .popup-form-container {
+        width: min(340px, calc(100vw - 32px));
+    }
+
+    /* Toast: respect iPhone home indicator via safe-area-inset-bottom */
+    .new-points-toast {
+        right: 12px;
+        left: 12px;
+        bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+        min-width: 0;
+        max-width: none;
+    }
+
+    /* Smaller legend image on mobile */
+    .pendientes-legend-img {
+        width: 160px;
+    }
+}
+
+/* =====================================================
    ACCESSIBILITY
    ===================================================== */
 .visually-hidden {

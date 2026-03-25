@@ -80,8 +80,13 @@ export const registerMapsAndLayers = (map) => {
     layerControl = L.control.layers(
         baseMaps,
         overlays,
-        { collapsed: false }
+        { collapsed: window.innerWidth < 768 }
     ).addTo(map);
+
+    // On mobile, tapping the map collapses the layer control
+    if (window.innerWidth < 768) {
+        map.on('click', () => layerControl.collapse());
+    }
 
     // ---------------- Legend control (local PNG, BIG & readable) ----------------
     const pendientesLegend = L.control({ position: 'bottomright' });
