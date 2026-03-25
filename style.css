@@ -1,3 +1,6 @@
+/* =====================================================
+   BASE
+   ===================================================== */
 body,
 html {
     margin: 0;
@@ -14,31 +17,766 @@ html {
     display: none;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+/* =====================================================
+   EASYBUTTON + ZOOM TOOLBAR
+   ===================================================== */
+.leaflet-bar {
+    border: 1px solid #e5e7eb !important;
+    border-radius: 10px !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.10) !important;
+    overflow: hidden;
 }
 
-.help-text {
-    font-size: 14px;
-    color: gray;
+.leaflet-bar a,
+.leaflet-bar button {
+    width: 34px !important;
+    height: 34px !important;
+    line-height: 34px !important;
+    background-color: #fff !important;
+    color: #4b5563 !important;
+    border-bottom: 1px solid #f3f4f6 !important;
+    font-size: 15px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: background 0.15s, color 0.15s !important;
+}
+
+.leaflet-bar a:last-child,
+.leaflet-bar button:last-of-type {
+    border-bottom: none !important;
+}
+
+.leaflet-bar a:hover,
+.leaflet-bar button:hover {
+    background-color: #f0faf4 !important;
+    color: #2d7d46 !important;
+}
+
+.leaflet-bar a:first-child,
+.leaflet-bar button:first-of-type {
+    border-radius: 0 !important;
+}
+
+.leaflet-bar a:last-child,
+.leaflet-bar button:last-of-type {
+    border-radius: 0 !important;
+}
+
+/* =====================================================
+   GEOSEARCH (SEARCH BAR)
+   ===================================================== */
+.leaflet-geosearch-bar {
+    border-radius: 10px !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.10) !important;
+    border: 1px solid #e5e7eb !important;
+    overflow: visible;
+}
+
+.leaflet-geosearch-bar form {
+    border-radius: 10px !important;
+    box-shadow: none !important;
+    border: none !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.leaflet-geosearch-bar form input {
+    height: 34px !important;
+    font-size: 13px !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    color: #1f2937 !important;
+    padding: 0 12px !important;
+    background: #fff !important;
+    border: none !important;
+    outline: none !important;
+    border-radius: 10px !important;
+}
+
+.leaflet-geosearch-bar form input::placeholder {
+    color: #9ca3af !important;
+}
+
+.leaflet-geosearch-bar a.leaflet-bar-part {
+    border-radius: 10px !important;
+    border: none !important;
+    background: #fff !important;
+    width: 34px !important;
+    height: 34px !important;
+    color: #6b7280 !important;
+    transition: color 0.15s, background 0.15s !important;
+}
+
+.leaflet-geosearch-bar a.leaflet-bar-part:hover {
+    background: #f0faf4 !important;
+    color: #2d7d46 !important;
+}
+
+.leaflet-geosearch-bar button.reset {
+    background: #fff !important;
+    border: none !important;
+    color: #9ca3af !important;
+    transition: color 0.15s !important;
+    margin-right: 4px !important;
+}
+
+.leaflet-geosearch-bar button.reset:hover {
+    color: #dc2626 !important;
+}
+
+.leaflet-control-geosearch .results {
+    border-radius: 0 0 10px 10px !important;
+    border: 1px solid #e5e7eb !important;
+    border-top: 1px solid #f3f4f6 !important;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.10) !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    overflow: hidden;
+    background: #fff !important;
+}
+
+.leaflet-control-geosearch .results > * {
+    padding: 9px 14px !important;
+    border-top: 1px solid #f3f4f6 !important;
+    font-size: 13px !important;
+    color: #1f2937 !important;
+    line-height: 1.4 !important;
+    transition: background 0.12s !important;
+}
+
+.leaflet-control-geosearch .results > *:first-child {
+    border-top: none !important;
+}
+
+.leaflet-control-geosearch .results > *:hover,
+.leaflet-control-geosearch .results > .active {
+    background: #f0faf4 !important;
+    color: #2d7d46 !important;
+}
+
+/* =====================================================
+   LAYER CONTROL
+   ===================================================== */
+.leaflet-control-layers {
+    border-radius: 12px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.06) !important;
+    border: 1px solid #e5e7eb !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    overflow: hidden;
+    padding: 0 !important;
+}
+
+.leaflet-control-layers-expanded {
+    padding: 0 !important;
+}
+
+.leaflet-control-layers-list {
+    padding: 8px 0 10px !important;
+    min-width: 190px;
+}
+
+.leaflet-control-layers label {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 6px 14px !important;
+    font-size: 13px !important;
+    color: #374151 !important;
+    cursor: pointer !important;
+    transition: background 0.12s !important;
+    margin: 0 !important;
+    line-height: 1.4 !important;
+}
+
+.leaflet-control-layers label:hover {
+    background: #f9fafb !important;
+}
+
+.leaflet-control-layers label span {
+    font-size: 13px !important;
+    color: #374151 !important;
+    font-weight: 500 !important;
+}
+
+.leaflet-control-layers-separator {
+    height: 0 !important;
+    margin: 6px 0 !important;
+    border-top: 1px solid #f3f4f6 !important;
+}
+
+.leaflet-control-layers input[type="radio"],
+.leaflet-control-layers input[type="checkbox"] {
+    accent-color: #2d7d46;
+    width: 14px !important;
+    height: 14px !important;
+    min-width: 14px !important;
+    cursor: pointer !important;
+    margin: 0 !important;
+}
+
+/* =====================================================
+   MAP PANEL (replaces Leaflet popups for UI panels)
+   ===================================================== */
+.map-panel-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.25);
+    animation: panel-overlay-in 0.18s ease forwards;
+}
+
+.map-panel-overlay--closing {
+    animation: panel-overlay-out 0.18s ease forwards;
+}
+
+@keyframes panel-overlay-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes panel-overlay-out {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+.map-panel {
+    position: relative;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.10);
+    border: 1px solid #e5e7eb;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: #1f2937;
+    animation: panel-in 0.22s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.map-panel-overlay--closing .map-panel {
+    animation: panel-out 0.18s ease forwards;
+}
+
+@keyframes panel-in {
+    from { transform: scale(0.92); opacity: 0; }
+    to   { transform: scale(1);    opacity: 1; }
+}
+
+@keyframes panel-out {
+    from { transform: scale(1);    opacity: 1; }
+    to   { transform: scale(0.92); opacity: 0; }
+}
+
+.map-panel-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    background: none;
+    border: none;
+    font-size: 22px;
+    font-weight: 300;
+    color: #9ca3af;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    border-radius: 50%;
+    padding: 0;
+    transition: color 0.15s, background 0.15s;
+    z-index: 1;
+}
+
+.map-panel-close:hover {
+    color: #374151;
+    background: #f3f4f6;
+}
+
+/* =====================================================
+   LEAFLET POPUP OVERRIDES
+   ===================================================== */
+.leaflet-popup-content-wrapper {
+    border-radius: 14px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.13), 0 2px 8px rgba(0, 0, 0, 0.07) !important;
+    padding: 0 !important;
+    border: 1px solid #e5e7eb !important;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.leaflet-popup-content {
+    margin: 0 !important;
+    color: #1f2937;
+    line-height: 1.5;
+}
+
+.leaflet-popup-close-button {
+    top: 12px !important;
+    right: 14px !important;
+    font-size: 22px !important;
+    font-weight: 300 !important;
+    color: #9ca3af !important;
+    width: 28px !important;
+    height: 28px !important;
+    line-height: 28px !important;
+    text-align: center !important;
+    border-radius: 50% !important;
+    transition: color 0.15s, background 0.15s !important;
+    padding: 0 !important;
+}
+
+.leaflet-popup-close-button:hover {
+    color: #374151 !important;
+    background: #f3f4f6 !important;
+    text-decoration: none !important;
+}
+
+/* =====================================================
+   INFO POPUP
+   ===================================================== */
+.info-popup {
+    width: 340px;
+}
+
+.info-popup-header {
+    padding: 20px 44px 16px 20px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.info-popup-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 4px;
+}
+
+.info-popup-subtitle {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0;
+}
+
+.info-popup-list {
+    list-style: none;
+    margin: 0;
+    padding: 6px 0 10px;
+}
+
+.info-popup-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 9px 20px;
+    transition: background 0.15s;
+}
+
+.info-popup-item:hover {
+    background: #f9fafb;
+}
+
+.info-popup-icon {
+    width: 30px;
+    height: 30px;
+    background: #f0faf4;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2d7d46;
+    font-size: 13px;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.info-popup-item-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.info-popup-item-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 2px;
+}
+
+.info-popup-item-help {
+    font-size: 12px;
+    color: #6b7280;
+    line-height: 1.4;
+}
+
+/* =====================================================
+   SHARED POPUP PANEL (Layers, Plan Delete)
+   ===================================================== */
+.popup-panel {
+    width: 300px;
+}
+
+.popup-panel-header {
+    padding: 18px 44px 14px 20px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.popup-panel-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+}
+
+.layer-list {
+    list-style: none;
+    margin: 0;
+    padding: 6px 0 10px;
+    max-height: 260px;
+    overflow-y: auto;
+}
+
+.layer-list-empty {
+    padding: 16px 20px;
+    font-size: 13px;
+    color: #9ca3af;
     font-style: italic;
 }
 
-.remove-layer-btn {
+.layer-list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 16px 9px 20px;
+    gap: 8px;
+    transition: background 0.15s;
+}
+
+.layer-list-item:hover {
+    background: #f9fafb;
+}
+
+.layer-list-name {
+    font-size: 13px;
+    color: #1f2937;
+    font-weight: 500;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.remove-layer-btn,
+.remove-track-btn {
     background: none;
     border: none;
-    color: #c00;
+    color: #d1d5db;
     cursor: pointer;
-    font-size: 1.1em;
-    margin-left: 0.5em;
+    font-size: 13px;
+    padding: 5px 7px;
+    border-radius: 6px;
+    line-height: 1;
+    flex-shrink: 0;
+    transition: color 0.15s, background 0.15s;
 }
 
-.remove-layer-btn:hover {
-    color: #a00;
+.remove-layer-btn:hover,
+.remove-track-btn:hover {
+    color: #dc2626;
+    background: #fef2f2;
 }
 
+.popup-panel-footer {
+    padding: 0 20px 16px;
+    border-top: 1px solid #f3f4f6;
+    padding-top: 12px;
+}
+
+/* =====================================================
+   FORM POPUP (Add Layer)
+   ===================================================== */
+.popup-form-container {
+    width: 320px;
+}
+
+.popup-form-header {
+    padding: 18px 44px 14px 20px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.popup-form-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+}
+
+.popup-form-subtitle {
+    font-size: 12px;
+    color: #6b7280;
+    margin: 4px 0 0;
+    line-height: 1.4;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 20px 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #374151;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.form-group input[type="text"],
+.form-group input[type="url"] {
+    padding: 8px 11px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #1f2937;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    font-family: inherit;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="url"]:focus {
+    border-color: #2d7d46;
+    box-shadow: 0 0 0 3px rgba(45, 125, 70, 0.1);
+}
+
+.form-group input[type="color"] {
+    height: 34px;
+    width: 56px;
+    padding: 2px 3px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #fff;
+}
+
+.help-text {
+    font-size: 11px;
+    color: #9ca3af;
+    font-style: normal;
+    line-height: 1.5;
+}
+
+.help-text a {
+    color: #2d7d46;
+}
+
+.btn-primary {
+    padding: 9px 16px;
+    background: #2d7d46;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s, transform 0.1s;
+}
+
+.btn-primary:hover {
+    background: #246339;
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+.btn-danger {
+    padding: 8px 14px;
+    background: #fff;
+    color: #dc2626;
+    border: 1px solid #fca5a5;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    width: 100%;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.btn-danger:hover {
+    background: #fef2f2;
+    border-color: #f87171;
+}
+
+/* =====================================================
+   PROGRESS BAR
+   ===================================================== */
+.loader {
+    display: none;
+    width: 160px;
+    height: 4px;
+    border-radius: 2px;
+    border: none;
+    overflow: hidden;
+    background: #e5e7eb;
+}
+
+.loader::-webkit-progress-bar {
+    background: #e5e7eb;
+    border-radius: 2px;
+}
+
+.loader::-webkit-progress-value {
+    background: #2d7d46;
+    border-radius: 2px;
+    transition: width 0.1s ease;
+}
+
+.loader::-moz-progress-bar {
+    background: #2d7d46;
+    border-radius: 2px;
+}
+
+/* =====================================================
+   PENDIENTES LEGEND
+   ===================================================== */
+.pendientes-legend-inner {
+    background: rgba(255, 255, 255, 0.97);
+    padding: 12px 14px;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.13);
+    border: 1px solid #e5e7eb;
+}
+
+.pendientes-legend-title {
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 8px;
+    color: #111827;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.pendientes-legend-img {
+    display: block;
+    width: 220px;
+    height: auto;
+}
+
+.pendientes-legend-caption {
+    font-size: 11px;
+    margin-top: 6px;
+    color: #6b7280;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* =====================================================
+   TOAST NOTIFICATION
+   ===================================================== */
+.new-points-toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15), 0 1px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    min-width: 240px;
+    max-width: 320px;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    border: 1px solid #e5e7eb;
+}
+
+.new-points-toast--visible {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.new-points-toast--hiding {
+    transform: translateY(20px);
+    opacity: 0;
+}
+
+.new-points-toast-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+}
+
+.new-points-toast-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.new-points-toast-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.new-points-toast-count {
+    font-size: 22px;
+    font-weight: 700;
+    color: #2d7d46;
+    line-height: 1;
+}
+
+.new-points-toast-message {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.3;
+}
+
+.new-points-toast-close {
+    background: none;
+    border: none;
+    color: #aaa;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+    transition: color 0.15s;
+}
+
+.new-points-toast-close:hover {
+    color: #555;
+}
+
+.new-points-toast-progress {
+    height: 3px;
+    background: #2d7d46;
+    width: 100%;
+    transform-origin: left;
+}
+
+.new-points-toast-progress--running {
+    animation: toast-progress linear forwards;
+}
+
+@keyframes toast-progress {
+    from { transform: scaleX(1); }
+    to   { transform: scaleX(0); }
+}
+
+/* =====================================================
+   ACCESSIBILITY
+   ===================================================== */
 .visually-hidden {
     position: absolute;
     width: 1px;
@@ -49,4 +787,4 @@ form {
     clip: rect(0 0 0 0);
     white-space: nowrap;
     border: 0;
-  }
+}
