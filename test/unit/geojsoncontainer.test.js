@@ -67,6 +67,7 @@ describe("GeoJsonContainer", () => {
         };
 
         fetch.mockResolvedValue({
+            ok: true,
             json: () => Promise.resolve(mockGeoJson)
         });
 

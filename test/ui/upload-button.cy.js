@@ -18,7 +18,7 @@ describe("Upload button", () => {
     it("uploads multiple GPX tracks", () => {
         cy.get('input[type="file"]').selectFile([
             "gpx/out-of-sync/3-la-porta-del-cel-certascan-a-pinet.gpx",
-            "gpx/out-of-sync/alzina-del-salari-turo-del-mal-pas.gpx"
+            "gpx/out-of-sync/1-i-2-la-porta-del-cel-tavascan-a-certascan.gpx"
         ], { force: true });
 
         cy.shouldHaveSomePointsAdded()

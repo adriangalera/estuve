@@ -9,25 +9,9 @@ describe("InfoButton", () => {
     const i18next = { t: vi.fn().mockImplementation(() => "translated") }
 
     it("should invoke popup and put some HTML content", () => {
-        let passedContent = "";
-        const map = {
-            getCenter: vi.fn().mockImplementation(() => "center")
-        }
-
-        vi.spyOn(L, "popup").mockImplementation(() => {
-            const mock = {
-                setLatLng: vi.fn().mockReturnThis(),
-                setContent: vi.fn().mockImplementation((content) => {
-                    passedContent = content
-                    return mock
-                }),
-                openOn: vi.fn().mockReturnThis()
-            }
-            return mock
-
-        });
-        displayInfoMessage(map, i18next)
-        expect(passedContent).not.toBe("")
+        document.body.innerHTML = '';
+        displayInfoMessage(i18next)
+        expect(document.body.innerHTML).not.toBe("")
     })
 
     it("should define callback and add button to the map", () => {

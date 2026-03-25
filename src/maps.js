@@ -90,39 +90,12 @@ export const registerMapsAndLayers = (map) => {
         const div = L.DomUtil.create('div', 'info legend pendientes-legend');
 
         div.innerHTML = `
-    <div style="
-      background: rgba(255,255,255,0.95);
-      padding: 12px 14px;
-      border-radius: 6px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.35);
-    ">
-      <div style="
-        font-weight: 600;
-        font-size: 15px;
-        margin-bottom: 10px;
-      ">
-        Pendiente (°)
-      </div>
-
-      <img
-        src="/pendientes.png"
-        alt="Leyenda pendientes IGN"
-        style="
-          display: block;
-          width: 260px;
-          height: auto;
-        "
-      />
-
-      <div style="
-        font-size: 12px;
-        margin-top: 8px;
-        color: #444;
-      ">
-        MDP05 · grados sexagesimales · IGN
-      </div>
-    </div>
-  `;
+            <div class="pendientes-legend-inner">
+                <div class="pendientes-legend-title">Pendiente (°)</div>
+                <img src="/pendientes.png" alt="Leyenda pendientes IGN" class="pendientes-legend-img" />
+                <div class="pendientes-legend-caption">MDP05 · grados sexagesimales · IGN</div>
+            </div>
+        `;
 
         return div;
     };

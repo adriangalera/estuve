@@ -17,7 +17,12 @@
     "button": "Subir",
     "alert": "Subir ficheros con multiples extensions no está soportado. Suba ficheros GPX o un fichero .bin, pero de manera separada",
     "error": "Error subiendo fichero",
-    "help": "Usa este boton para subir tus tracks en ficheros GPX, puedes subir multiples. Además se puede usar para subir el fichero estuve.bin generado por el boton de descargar."
+    "help": "Usa este boton para subir tus tracks en ficheros GPX, puedes subir multiples. Además se puede usar para subir el fichero estuve.bin generado por el boton de descargar.",
+    "newPoints": {
+      "one": "nuevo punto añadido",
+      "other": "nuevos puntos añadidos",
+      "zero": "Sin nuevos puntos — ya estaban registrados"
+    }
   },
   "addlayer": {
     "button": "Añade una capa",
@@ -39,7 +44,8 @@
   "layer": {
     "button": "Gestiona tus capas",
     "help": "Elimina tus capas creadas.",
-    "text": "Capas creadas:"
+    "text": "Capas creadas:",
+    "empty": "Sin capas aún. Añade una con el botón +."
   },
   "plan": {
     "upload": {

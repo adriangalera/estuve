@@ -35,7 +35,7 @@ export const GpxManager = () => {
 
         // Generate a unique track name
         trackCounter++;
-        const trackName = gpxFile.name.replace('.gpx', '') || `Track ${trackCounter}`;
+        const trackName = gpxFile.name.replace(/\.gpx$/i, '') || `Track ${trackCounter}`;
         const uniqueTrackName = tracks.has(trackName) ? `${trackName} (${trackCounter})` : trackName;
 
         // Get bounds for potential zooming

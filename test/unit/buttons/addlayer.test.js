@@ -14,13 +14,10 @@ describe("addLayerButton", () => {
                 return { addTo: addToMapMock }
             })
         }
-        const map = {
-            on: vi.fn()
-        }
+        const map = {}
         addExtraLayerButton(map, vi.fn(), i18next)
         expect(addToMapMock).toHaveBeenCalledWith(map)
         expect(passedCallback).toBeDefined()
-        expect(map.on).toHaveBeenCalledWith("popupopen", expect.anything())
     })
 
     it("the form listener retrieves the data", () => {
@@ -29,9 +26,6 @@ describe("addLayerButton", () => {
             dispatchedEvent = e;
         });
 
-        const popup = {
-            closePopup: vi.fn()
-        }
         const storage = {
             layers: {
                 putLayer: vi.fn()
@@ -47,7 +41,7 @@ describe("addLayerButton", () => {
         </form>
       `;
 
-        formSubmitListener(popup, storage)
+        formSubmitListener(storage)
 
         const form = document.getElementById('geojson-layer-form');
         form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
@@ -57,8 +51,6 @@ describe("addLayerButton", () => {
             url: 'geojson',
             color: 'red'
         });
-
-        expect(popup.closePopup).toHaveBeenCalled();
 
         expect(dispatchedEvent).toBeTruthy();
         expect(dispatchedEvent.detail).toEqual({

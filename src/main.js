@@ -27,6 +27,7 @@ import { addDownloadButton } from "./buttons/download.js";
 import { registerMapsAndLayers } from "./maps.js"
 import { addExtraLayerButton } from "./buttons/addLayer.js";
 import { addLayerManagementButton } from "./buttons/layers.js";
+import { registerUploadNotification } from "./notifications/uploadNotification.js";
 
 
 
@@ -105,6 +106,7 @@ Promise.all([i18nPromise, qtStorage.load()])
 
         const storage = { qt, fileLoadedCache, qtStorage, layers: layersStorage }
 
+        registerUploadNotification(i18next);
         addInfoButton(map, i18next);
         addUploadButton(map, progressBar, i18next, storage);
         addDownloadButton(map, storage, i18next);
