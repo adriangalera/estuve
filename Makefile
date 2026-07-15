@@ -22,4 +22,8 @@ test:
 
 .PHONY: deploy
 deploy: test
-	npm run deploy	
+	npm run deploy
+
+.PHONY: diskstation
+diskstation: 
+	bash scripts/backup-diskstation.sh
